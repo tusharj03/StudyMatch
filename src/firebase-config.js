@@ -5,7 +5,7 @@ import { getAuth, GoogleAuthProvider } from 'firebase/auth';
 // Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyD1bvNBzPZv6CrNWIM7EhXTILKfYyTeiIo",
-  authDomain: "studybuddies-9eb35.firebaseapp.com",
+  authDomain: "https://studyappuiuc.vercel.app/",
   projectId: "studybuddies-9eb35",
   storageBucket: "studybuddies-9eb35.appspot.com",
   messagingSenderId: "531355939866",
