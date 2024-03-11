@@ -115,9 +115,38 @@ body {
   border-radius: 0.6rem;
   background-color: var(--colorSidebarHover);
 }
+
 .sidebar a:active{
   background-color: var(--color2);
   color: var(--color1);
+}
+
+@media only screen and (max-width: 768px) {
+  .sidebar {
+    width: 100%; /* Full width for iOS devices */
+    max-width: 250px; /* Maximum width for iOS devices */
+    transform: translateX(-250px); /* Hide sidebar off-screen by default for iOS */
+  }
+
+  .sidebarToggle {
+    display: block; /* Display toggle button for iOS */
+    position: fixed;
+    top: 20px;
+    right: 20px; /* Adjust position to the right */
+    background-color: var(--colorSidebar); /* Match sidebar background */
+    color: var(--colorSidebarLink); /* Match sidebar text color */
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+  }
+
+  .sidebarToggle:hover {
+    background-color: var(--colorSidebarHover);
+  }
+
+  .sidebar.active {
+    transform: translateX(0); /* Slide in sidebar when active */
+  }
 }
 
 #logoutButton {
@@ -499,6 +528,3 @@ body {
 .inputSection {
   margin-bottom: 20px; /* Adjust the value as needed */
 }
-
-  
-
