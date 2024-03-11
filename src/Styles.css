@@ -92,16 +92,15 @@ body {
 }
 
 /* SIDEBAR */
-/* SIDEBAR */
 .sidebar{
   background-color: var(--colorSidebar);
   height: 100%;
   left: 0;
   top: 0;
   position: fixed;
+  
   width: 10rem;
 }
-
 .sidebar a{
   position: relative;
   top: 1em;
@@ -112,46 +111,13 @@ body {
   text-decoration:dotted;
   font-size: 25px;
 }
-
 .sidebar a:hover{
   border-radius: 0.6rem;
   background-color: var(--colorSidebarHover);
 }
-
 .sidebar a:active{
   background-color: var(--color2);
   color: var(--color1);
-}
-
-.sidebarToggle {
-  display: none;
-}
-
-@media only screen and (max-width: 768px) {
-  .sidebar {
-    width: 0;
-    overflow: hidden;
-  }
-
-  .sidebarToggle {
-    display: block;
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background-color: var(--colorSidebar);
-    color: var(--colorSidebarLink);
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-  }
-
-  .sidebarToggle:hover {
-    background-color: var(--colorSidebarHover);
-  }
-
-  .sidebar.active {
-    width: 10rem;
-  }
 }
 
 #logoutButton {
