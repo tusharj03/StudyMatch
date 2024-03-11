@@ -92,15 +92,16 @@ body {
 }
 
 /* SIDEBAR */
+/* SIDEBAR */
 .sidebar{
   background-color: var(--colorSidebar);
   height: 100%;
   left: 0;
   top: 0;
   position: fixed;
-  
   width: 10rem;
 }
+
 .sidebar a{
   position: relative;
   top: 1em;
@@ -111,6 +112,7 @@ body {
   text-decoration:dotted;
   font-size: 25px;
 }
+
 .sidebar a:hover{
   border-radius: 0.6rem;
   background-color: var(--colorSidebarHover);
@@ -121,20 +123,23 @@ body {
   color: var(--color1);
 }
 
+.sidebarToggle {
+  display: none;
+}
+
 @media only screen and (max-width: 768px) {
   .sidebar {
-    width: 100%; /* Full width for iOS devices */
-    max-width: 250px; /* Maximum width for iOS devices */
-    transform: translateX(-250px); /* Hide sidebar off-screen by default for iOS */
+    width: 0;
+    overflow: hidden;
   }
 
   .sidebarToggle {
-    display: block; /* Display toggle button for iOS */
+    display: block;
     position: fixed;
     top: 20px;
-    right: 20px; /* Adjust position to the right */
-    background-color: var(--colorSidebar); /* Match sidebar background */
-    color: var(--colorSidebarLink); /* Match sidebar text color */
+    right: 20px;
+    background-color: var(--colorSidebar);
+    color: var(--colorSidebarLink);
     border: none;
     padding: 10px;
     cursor: pointer;
@@ -145,7 +150,7 @@ body {
   }
 
   .sidebar.active {
-    transform: translateX(0); /* Slide in sidebar when active */
+    width: 10rem;
   }
 }
 
