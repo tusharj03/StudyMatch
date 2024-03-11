@@ -1,0 +1,504 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+.theme-light {
+  --color1: #003366;
+  --color2: #FCEEEE;
+  --color3: #FF5F0F;
+  --color4: #29298A; 
+  --color5: white; 
+  --colorSidebar: var(--color1);
+  --colorSidebarLink: var(--color2);
+  --colorSidebarHover: #4a4cb6;
+  --colorBoxes: var(--color5);
+  --colorPlaceholder: #e4b6a8;
+  --colorShadow: #a8abdb;
+  --colorLogoutText: var(--color2);
+  --colorToggleBackground: #494bc0;
+  --colorToggleIcon: var(--color2);
+  --colorToggleIconHover: #29298A;
+  --colorToggleBackgroundHover: #E77474;
+}
+.theme-dark {
+  --color1: #5e59c9;
+  --color2: #242446;
+  --color3: #ca7070;
+  --color4: #9a84d4; 
+  --color5: #1E1E34; 
+  --colorSidebar: var(--color2);
+  --colorSidebarLink: var(--color3);
+  --colorSidebarHover: #33336b;
+  --colorBoxes: var(--color2);
+  --colorPlaceholder: #505291;
+  --colorShadow: #0F0F1A;
+  --colorLogoutText: var(--color3);
+  --colorToggleBackground: var(--colorSidebarHover);
+  --colorToggleIcon: var(--color3);
+  --colorToggleIconHover: var(--color2);
+  --colorToggleBackgroundHover: #E77474;
+}
+
+html *
+{
+  font-family: 'Alegreya', sans-serif;
+}
+
+body {
+  background-color: var(--color5);
+  border: 0px;
+  margin: 0;
+}
+
+.center {
+  margin-left: 15%;
+  margin-right:15%;
+  width: 70%;
+  padding: 10px;
+}
+
+/* MAIN TITLES */
+.title {
+  color: var(--color1);
+  background-color: var(--colorBoxes);
+  border-left-style: solid;
+  border-left-width: 50px;
+  padding: 10px 0 10px 20px;
+  box-shadow: 0 4px 10px var(--colorShadow);
+  border-radius: 5px;
+  width: 15rem;
+}
+
+/* BUTTONS */
+.button1{
+  /* color, textbox size */
+  background-color: var(--color1);
+  border-radius: 0.7rem;
+  border: 0;
+  position: relative;
+  padding: 0.8rem 1.3rem;
+  margin-top:0px;
+  
+  /* Font, Font size, color */
+  font-size: 1rem;
+  color: var(--color2);
+}
+
+.button1:hover{
+  background-color: var(--color4);
+  color: var(--color2);
+}
+.button1:active{
+  background-color: var(--color1);
+  color: var(--color2);
+}
+
+/* SIDEBAR */
+.sidebar{
+  background-color: var(--colorSidebar);
+  height: 100%;
+  left: 0;
+  top: 0;
+  position: fixed;
+  
+  width: 10rem;
+}
+.sidebar a{
+  position: relative;
+  top: 1em;
+  float: left;
+  left: 0.3rem;
+  color: var(--colorSidebarLink);
+  padding: 0.5rem 1.2rem;
+  text-decoration:dotted;
+  font-size: 25px;
+}
+.sidebar a:hover{
+  border-radius: 0.6rem;
+  background-color: var(--colorSidebarHover);
+}
+.sidebar a:active{
+  background-color: var(--color2);
+  color: var(--color1);
+}
+
+#logoutButton {
+  background-color: var(--colorSidebar);
+  border: 0;
+
+  font-size: 1rem;
+  color: var(--colorLogoutText);
+  position: absolute;
+  left: 1.2rem;
+  bottom: 1.5rem;
+}
+#logoutButton:hover {
+  text-decoration: underline;
+}
+
+/* PAGE */
+.page{
+  position: absolute;
+  margin-left: 12rem;
+}
+
+.toggleThemeButton {
+  position: absolute;
+  left: 1.5rem;
+  bottom: 4.5rem;
+  border-radius: 0.2rem;
+  border: none;
+  /* background-color: var(--colorSidebarHover); */
+  background-color: var(--colorToggleBackground);
+  /* color: var(--colorSidebarLink); */
+  color: var(--colorToggleIcon);
+  font-size: 1.2rem;
+  height: 2.5rem;
+  width: 2.5rem;
+}
+
+.toggleThemeButton:hover {
+  background-color: var(--colorToggleBackgroundHover);
+  color: var(--colorToggleIconHover);
+
+}
+
+/* LOGIN PAGE */
+
+/* Purple bar at the top */
+#loginTopBar {
+  background-color: var(--color1);
+  height: 51px;
+  width: 100%;
+  border: 0;
+}
+
+#loginTitle {
+  /* Color, position, textbox size */
+  color: var(--color3);
+  position: absolute;
+  left: 1rem;
+  top: -1rem;
+  display: flex;
+
+  /* Font and font size */
+  font-weight: bold;
+  font-size: 30px;
+  line-height: 45px;
+}
+
+#tagline {
+  
+  /*overflow: hidden;*/
+  width: 70%;
+  margin-right:15%;
+  margin-left:15%;
+  border-right: 0.3em solid var(--color1);
+  border-left: 0.3em solid var(--color1);
+  box-shadow: 0rem 1rem 1rem 0rem rgba(139, 137, 137, 0.211);
+  background-color: white;
+  white-space: nowrap;
+  margin: 0 auto;
+  letter-spacing: .15em;
+  animation: 
+    typing 3s steps(20,end) forwards;
+  ;
+
+
+  color: var(--color1);
+  text-align: center;
+  transform: translate(0%, 120%);
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 27px;
+  font-size: 2.5vw;
+}
+
+@keyframes typing {
+  from { width: 0 }
+  to { width: 70% }
+}
+
+
+
+
+#loginButton {
+  left: 50%;
+  transform: translate(-50%, 400%);
+}
+
+.noticeBox {
+  position: absolute;
+  width: 60%;
+  min-height: 200px;
+  top: 530px;
+  left: 20%;
+  border-radius: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+
+  border: 0;
+  background: #D0D4FC;
+  border-top-width: 50px;
+  border-top-color: var(--color1);
+  border-top-style: solid;
+  box-shadow: 0rem 1rem 1rem 0rem var(--colorShadow);
+
+}
+.noticeBox h2 {
+  position: absolute;
+  text-align: center;
+  width: 100%;
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: normal;
+  /* top was 640 */
+  color: var(--color2);
+  top:-60px;
+}
+.noticeBox p {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: normal;
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+.loginPage {
+  position: absolute;
+  width: 100%;
+  height: 83%;
+  
+  background-image: url("./images/visit-virtual-visits.jpg");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/* MATCHES PAGE */
+
+.matchesUserBox{
+  position: relative;
+  right: 1rem;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px 0 var(--colorShadow);
+  width: 12.5rem;
+  height: 22rem;
+  padding: 0.5rem 2rem;
+  margin: 1.1rem;
+  float: left;
+  color: var(--color1);
+  background-color: var(--colorBoxes);
+}
+
+.userSection {
+  margin: -0.5rem 0rem;
+}
+
+.userContent {
+  resize: none;
+  border: none;
+  outline: none;
+  width: 12.5rem;
+  word-break: break-all;
+  font-size: 0.82rem;
+  color: var(--color4);
+  overflow: hidden;
+}
+
+.userContentHeader {
+  color: var(--color1);
+}
+
+#userDisplayName {
+  color: var(--color3);
+  font-size: 1.2rem;
+  height: 2.25rem;
+  overflow: hidden;
+}
+#userDisplayName:hover {
+  text-decoration: underline;
+}
+
+#userContentMajor {
+  color: var(--color1);
+  margin: -1.2rem 0rem -0.2rem;
+}
+
+#userContentClasses {
+  height: 2.25rem;
+}
+
+#userContentBio {
+  height: 8.5rem;
+}
+
+/*  PROFILE PAGE */
+.note {
+  font-size: 0.75em;
+  color: var(--color1);
+}
+
+.inputHeader {
+  color: var(--color1);
+}
+
+#contact{
+  margin-left:0%;
+  margin-top:0px;
+}
+.inputHeaderBig {
+  color: var(--color3);
+}
+
+.inputSmall {
+  padding: 10px;
+  margin: 10px 0;
+  border: none;
+  background-color: var(--color2);
+  border-radius: 0.5rem;
+  width: 350px;
+  color: var(--color4);
+}
+.inputSmall:focus { 
+  outline: none;
+  border: none;
+}
+
+::placeholder {
+  color: var(--colorPlaceholder);
+}
+
+.inputLarge {
+  padding: 10px;
+  margin: 10px 0;
+  border: none;
+  background-color: var(--color2);
+  border-radius: 0.5rem;
+  width: 350px;
+  height: 75px;
+  resize: none;
+  color: var(--color4);
+}
+.inputLarge:focus{
+  outline: none;
+}
+
+.preDropdownText {
+  display: inline-block;
+  color: var(--color4);
+  /* margin: 0rem 0rem 1rem; */
+  margin: 0rem;
+}
+
+#majorInput, #majorDropdown {
+  margin: 0.75rem 0rem 1rem;
+}
+
+.editButton {
+  background: none;
+  outline: none;
+  border: none;
+  color: var(--color3);
+  margin: 0rem 0.2rem;
+}
+
+.message {
+  display: none;
+  padding: 1rem 0rem;
+  color: var(--color1)
+}
+
+/* USER PROFILES */
+
+#userProfileMajor {
+  margin: 0rem 0rem -1rem;
+  font-size: 1.2rem;
+  color: var(--color1);
+}
+
+.userProfileContent {
+  resize: none;
+  border: none;
+  margin: 0rem 1.5rem 0rem 0rem;
+  font-size: 1rem;
+  color: var(--color4);
+}
+
+.userProfileLink {
+  text-decoration: none;
+  position: relative;
+  margin: 0.5rem;
+  top: -0.4rem;
+  color: var(--color3);
+}
+.userProfileLink:hover {
+  text-decoration: underline;
+}
+
+.userProfileContactText {
+  position: relative;
+  color: var(--color4);
+  margin: 0rem 0.1rem;
+  top: -0.3rem;
+}
+
+.userProfileHeader {
+  color: var(--color1);
+}
+
+.contactIcon {
+  font-size: 2rem;
+  color: var(--color1);
+}
+
+#emailIcon {
+  font-size: 1.82rem;
+}
+
+#discordIcon {
+  font-size: 1.7rem;
+  position: relative;
+  left: -0.18rem;
+}
+
+
+@media screen and (min-width: 1100px){
+
+.button1{
+  /* color, textbox size */
+  background-color: var(--color1);
+  border-radius: 0.7rem;
+  border: 0;
+  position: relative;
+  padding: 0.8rem 1.3rem;
+  margin-top:75px;
+  
+  /* Font, Font size, color */
+  font-size: 1rem;
+  color: var(--color2);
+}
+
+.button1:hover{
+  background-color: var(--color4);
+  color: var(--color2);
+}
+.button1:active{
+  background-color: var(--color1);
+  color: var(--color2);
+}
+
+#contact{
+  margin-left:140%;
+  margin-top:-418px;
+}
+
+}
+
+.inputSection {
+  margin-bottom: 20px; /* Adjust the value as needed */
+}
+
+  
+
