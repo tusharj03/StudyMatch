@@ -12,6 +12,7 @@ import Toggle, { keepTheme } from "./utils/Toggle";
 const App = () =>  {
   
   const [isAuth, setIsAuth] = useState(localStorage.getItem("isAuth"));
+  const [showSidebar, setShowSidebar] = useState(false);
 
   const signUserOut = () => {
     signOut(auth).then(() => {
@@ -23,7 +24,7 @@ const App = () =>  {
 
   useEffect(() => {
     keepTheme();
-  })
+  }, []); // Add an empty dependency array to ensure useEffect runs only once
 
   return (
     <Router>
@@ -31,11 +32,16 @@ const App = () =>  {
         {!isAuth ? (
           <div></div>
         ) : (
-          <div className='sidebar'>
-            <Link to="/home">Matches</Link>
-            <Link to="/profile">Profile</Link>
-            <Toggle id="themeToggleButton"></Toggle>
-            <button id="logoutButton" className="button2" onClick={signUserOut}> Log Out </button>
+          <div>
+            <div className={`sidebar ${showSidebar ? 'show' : ''}`}>
+              <Link to="/home">Matches</Link>
+              <Link to="/profile">Profile</Link>
+              <Toggle id="themeToggleButton"></Toggle>
+              <button id="logoutButton" className="button2" onClick={signUserOut}> Log Out </button>
+            </div>
+            <button className="toggleButton" onClick={() => setShowSidebar(!showSidebar)}>
+              {showSidebar ? 'Close Sidebar' : 'Open Sidebar'}
+            </button>
           </div>
         )}
       </nav>
