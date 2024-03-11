@@ -3,7 +3,7 @@ import { db } from "../firebase-config";
 import { useNavigate, useParams } from "react-router-dom";
 import { collection, getDocs } from "firebase/firestore";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faInstagram, faDiscord } from "@fortawesome/free-brands-svg-icons";
+import { faInstagram, faDiscord, faSnapchat } from "@fortawesome/free-brands-svg-icons";
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import '../Styles.css';
 
@@ -20,7 +20,7 @@ const User = ({ isAuth }) => {
   const user = useParams();
   const [email, setEmail] = useState("");
   const [instagram, setInstagram] = useState("");
-  const [discord, setDiscord] = useState("");
+  const [snapchat, setSnapchat] = useState("");
 
   useEffect(() => {
     getDocs(userColRef)
@@ -33,7 +33,7 @@ const User = ({ isAuth }) => {
           document.getElementById("userProfileBio").textContent = doc.data().bio;
           setEmail(doc.data().email);
           setInstagram(doc.data().instagram);
-          setDiscord(doc.data().discord);
+          setSnapchat(doc.data().snapchat);
         }
       });
     })
@@ -70,10 +70,10 @@ const User = ({ isAuth }) => {
         </div>
       }
 
-      {discord !== "" &&
+      {snapchat !== "" &&
         <div className="userProfileSocial">
-          <FontAwesomeIcon id="discordIcon" className="contactIcon" icon={faDiscord}/>
-          <span id="userProfileDiscord" className="userProfileContactText">{discord}</span>
+          <FontAwesomeIcon id="snapchatIcon" className="contactIcon" icon={faSnapchat}/>
+          <span id="userProfileSnapchat" className="userProfileContactText">{snapchat}</span>
         </div>
       }
 

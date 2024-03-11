@@ -44,7 +44,7 @@ const Profile = ({ isAuth }) => {
 
   // Update profile
   const updateProfile = async () => {
-  
+    console.log("Update Profile function called");
     // Prepare major and class data to pass into database
     let majorToUpdate = "";
     
@@ -76,6 +76,7 @@ const Profile = ({ isAuth }) => {
       email,
       snapchat: document.getElementById("snapchatInput").value
     });
+    console.log("Profile updated successfully");
 
     // Retrieve profile info when updated
     getDocs(userColRef)
