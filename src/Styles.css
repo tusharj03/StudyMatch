@@ -136,7 +136,7 @@ body {
 
 /* PAGE */
 .page{
-  position: relative;
+  position: absolute;
   margin-left: 12rem;
 }
 
