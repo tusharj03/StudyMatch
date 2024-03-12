@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { db, auth } from "../firebase-config";
+import { storage, db, auth } from "../firebase-config";
 import { useNavigate } from "react-router-dom";
 import { doc, setDoc, collection, getDocs } from "firebase/firestore";
 import { default as ReactSelect } from 'react-select';
@@ -8,8 +8,34 @@ import { faPencil } from '@fortawesome/free-solid-svg-icons';
 import { stylesLight, stylesDark } from '../utils/dropdown-settings'
 import { majorOptions } from '../utils/major-options'
 import '../Styles.css';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 const Profile = ({ isAuth }) => {
+  
+  const [profilePicURL, setProfilePicURL] = useState(""); // State to hold profile picture URL
+  const navigate = useNavigate();
+  
+  // Function to handle profile picture change
+  const handleProfilePicChange = async (event) => {
+    const file = event.target.files[0];
+    const storageRef = ref(storage, `profile_pictures/${auth.currentUser.uid}/${file.name}`);
+    
+    try {
+      await uploadBytes(storageRef, file);
+      const downloadURL = await getDownloadURL(storageRef);
+  
+      // Set profilePicURL state only if downloadURL is available
+      if (downloadURL) {
+        setProfilePicURL(downloadURL); // Set the downloaded URL to state
+
+        updateProfile(downloadURL);
+      } else {
+        console.error("Failed to retrieve profile picture download URL.");
+      }
+    } catch (error) {
+      console.error("Error uploading profile picture:", error);
+    }
+  }
   
   let nagivate = useNavigate();
   const userColRef = collection(db, "users");
@@ -43,7 +69,7 @@ const Profile = ({ isAuth }) => {
   }, []);
 
   // Update profile
-  const updateProfile = async () => {
+  const updateProfile = async (downloadURL) => {
     console.log("Update Profile function called");
     // Prepare major and class data to pass into database
     let majorToUpdate = "";
@@ -66,6 +92,7 @@ const Profile = ({ isAuth }) => {
       return;
     }
 
+
     // Add/update to Cloud Firestore
     await setDoc(doc(db, "users", auth.currentUser.uid), {
       major: majorToUpdate,
@@ -74,7 +101,8 @@ const Profile = ({ isAuth }) => {
       bio: document.getElementById("bioInput").value,
       instagram: document.getElementById("instagramInput").value,
       email,
-      snapchat: document.getElementById("snapchatInput").value
+      snapchat: document.getElementById("snapchatInput").value,
+      profilePicURL: downloadURL
     });
     console.log("Profile updated successfully");
 
@@ -112,22 +140,21 @@ const Profile = ({ isAuth }) => {
       <div className="inputSection">
         <b className="inputHeader">My Major</b>
 
-          <div>
+        <div>
+          {editMajor ? (
             <ReactSelect id="majorDropdown" className="dropdown"
               options={majorOptions}
               value={major} 
               onChange={(s) => {setMajor(s)}}
               styles={localStorage.getItem("theme") === "theme-light" ? stylesLight : stylesDark}
             />
-          </div>
-          <div>
-            <div id="majorInput" className="preDropdownText"></div>
-            <button className="editButton" onClick={() => {setEditMajor(true)}}>
-            </button>
-            
-          </div>
-        
-
+          ) : (
+            <div>
+              <div id="majorInput" className="preDropdownText"></div>
+              <FontAwesomeIcon icon={faPencil} className="editButton" onClick={() => setEditMajor(true)} />
+            </div>
+          )}
+        </div>
       </div>
       
       <div className="inputSection">
@@ -143,6 +170,12 @@ const Profile = ({ isAuth }) => {
         <textarea id="bioInput" className="inputLarge"></textarea>
       </div>
       
+      <div className="inputSection">
+        <b className="inputHeader">Profile Picture</b>
+        <br />
+        <input type="file" accept="image/*" onChange={handleProfilePicChange} />
+      </div>
+
       <div id="contact">
       <h2 className="inputHeaderBig" >Contact</h2>
       

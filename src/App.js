@@ -7,6 +7,7 @@ import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import Home from "./pages/Home";
 import User from "./pages/User";
+import Chat from './pages/Chat'; 
 import Toggle, { keepTheme } from "./utils/Toggle";
 
 const App = () =>  {
@@ -45,6 +46,7 @@ const App = () =>  {
         <Route path="/profile" element={<Profile isAuth={isAuth}/>} />
         <Route path="/home" element={<Home isAuth={isAuth}/>} />
         <Route path="/user/:id" element={<User isAuth={isAuth}/>} />
+        <Route path="/chat" element={<Chat isAuth={isAuth} />} />
       </Routes>
     </Router>
   );

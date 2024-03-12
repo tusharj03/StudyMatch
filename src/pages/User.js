@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { db } from "../firebase-config";
+import { db, storage } from "../firebase-config";
 import { useNavigate, useParams } from "react-router-dom";
 import { collection, getDocs } from "firebase/firestore";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -10,6 +10,7 @@ import '../Styles.css';
 const User = ({ isAuth }) => {
   // If user not authenticated, redirect to login page
   let nagivate = useNavigate();
+  const [profilePicURL, setProfilePicURL] = useState(""); // State to hold profile picture URL
   useEffect(() => {
     if (!isAuth) {
       nagivate("/");
@@ -34,6 +35,7 @@ const User = ({ isAuth }) => {
           setEmail(doc.data().email);
           setInstagram(doc.data().instagram);
           setSnapchat(doc.data().snapchat);
+          setProfilePicURL(doc.data().profilePicURL); // Set the profile picture URL from Firestore
         }
       });
     })
@@ -42,10 +44,21 @@ const User = ({ isAuth }) => {
     });
   }, []);
 
+  const renderProfilePic = () => {
+    if (profilePicURL) {
+      return <img src={profilePicURL} alt="Profile Picture" className="profile-pic" />;
+    } else {
+      return <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="Default Profile Picture" className="profile-pic" />; // Alternatively, you could display a default profile picture here
+    }
+  };
+
   return (
     <div className="page">
       <h1 id="userProfileDisplayName" className="title">Name</h1>
       <div id="userProfileMajor" className="userProfileContent"></div>
+      <br/>
+      {renderProfilePic()} {/* Display profile picture here */}
+      <br/>
       <br/>
       <b className="userProfileHeader">Classes</b>
       <br/>

@@ -37,9 +37,14 @@
   --colorToggleBackgroundHover: #E77474;
 }
 
+
+
+
+
+
 html *
 {
-  font-family: 'Alegreya', sans-serif;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 body {
@@ -94,7 +99,7 @@ body {
 /* SIDEBAR */
 .sidebar{
   background-color: var(--colorSidebar);
-  height: 140vh;
+  height: 100%;
   left: 0;
   top: 0;
   position: absolute;
@@ -172,7 +177,8 @@ body {
 
 #loginTitle {
   /* Color, position, textbox size */
-  color: var(--color3);
+  color: var(--color2);
+  font-family: 'Courier New', Courier, monospace;
   position: absolute;
   left: 1rem;
   top: -1rem;
@@ -295,6 +301,11 @@ body {
   margin: -0.5rem 0rem;
 }
 
+.profile-pic {
+  width: 100px; /* Adjust the width as needed */
+  height: 100px; /* Adjust the height as needed */
+}
+
 .userContent {
   resize: none;
   border: none;
@@ -313,7 +324,7 @@ body {
 #userDisplayName {
   color: var(--color3);
   font-size: 1.2rem;
-  height: 2.25rem;
+  height: 2.rem;
   overflow: hidden;
 }
 #userDisplayName:hover {
