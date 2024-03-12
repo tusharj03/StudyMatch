@@ -97,6 +97,7 @@ body {
   height: 100%;
   left: 0;
   top: 0;
+  position: absolute;
   
   width: 10rem;
 }
@@ -135,7 +136,7 @@ body {
 
 /* PAGE */
 .page{
-  position: absolute;
+  position: relative;
   margin-left: 12rem;
 }
 
