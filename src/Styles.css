@@ -94,11 +94,10 @@ body {
 /* SIDEBAR */
 .sidebar{
   background-color: var(--colorSidebar);
-  height: 100%;
+  height: 100vh;
   left: 0;
   top: 0;
   position: absolute;
-  
   width: 10rem;
 }
 .sidebar a{
@@ -138,6 +137,7 @@ body {
 .page{
   position: absolute;
   margin-left: 12rem;
+  overflow-y: auto; /* Allow scrolling if content exceeds height */
 }
 
 .toggleThemeButton {
