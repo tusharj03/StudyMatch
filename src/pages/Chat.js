@@ -19,7 +19,7 @@ const Chat = ({ isAuth, onJoinClass }) => {
   const [classChats, setClassChats] = useState({});
 
   // Function to join a class chat
-  const joinClassChat = (className) => {
+  const joinClassChat = async (className) => {
     // Check if a chat already exists for the selected class
     if (classChats[className]) {
       console.log(`Joining existing chat for class: ${className}`);
@@ -30,11 +30,24 @@ const Chat = ({ isAuth, onJoinClass }) => {
       setClassChats(newClassChats);
       console.log(`Created new chat for class: ${className}`);
     }
-    
+  
     // Set the selected class as the current chat
     setSelectedClass(className);
     onJoinClass(className);
+  
+    try {
+      // Add the user to the participants collection
+      await addDoc(collection(db, `classChats/${className}/participants`), {
+        displayName: auth.currentUser.displayName,
+        userId: auth.currentUser.uid,
+      });
+  
+      console.log('Participant added successfully.');
+    } catch (error) {
+      console.error("Error adding participant:", error);
+    }
   };
+  
 
   // Function to send a message to the current chat
   // Update the sendMessage function in Chat.js
