@@ -9,6 +9,17 @@ import { stylesLight, stylesDark } from '../utils/dropdown-settings'
 import { majorOptions } from '../utils/major-options'
 import '../Styles.css';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+// import { classOptions } from '../utils/class-options'; // Commented out the import
+
+// Hardcoded class options for testing
+const classOptions = [
+    { value: 'AAS 100', label: 'Intro Asian American Studies' },
+    { value: 'AAS 200', label: 'U.S. Race and Empire' },
+    { value: 'AAS 201', label: 'US Racial & Ethnic Politics' },
+    { value: 'AAS 275', label: 'The Politics of Fashion' },
+    { value: 'AAS 283', label: 'Asian American History' },
+    // Add more options as needed
+];
 
 const Profile = ({ isAuth }) => {
   
@@ -37,7 +48,7 @@ const Profile = ({ isAuth }) => {
     }
   }
   
-  let nagivate = useNavigate();
+
   const userColRef = collection(db, "users");
   const [major, setMajor] = useState("");
   const [editMajor, setEditMajor] = useState(false);
@@ -45,7 +56,7 @@ const Profile = ({ isAuth }) => {
   // If user not authenticated, redirect to login page
   useEffect(() => {
     if (!isAuth) {
-      nagivate("/");
+      navigate("/");
     }
   }, []);
   // Retrieve profile info when page loads
@@ -91,8 +102,10 @@ const Profile = ({ isAuth }) => {
       document.getElementById("invalidEmailMessage").style.display = "block";
       return;
     }
-
-
+  
+    // Prepare the profile pic URL
+    const profilePicURL = downloadURL || profilePicURL; // Use the new downloadURL if available, otherwise keep the current one
+  
     // Add/update to Cloud Firestore
     await setDoc(doc(db, "users", auth.currentUser.uid), {
       major: majorToUpdate,
@@ -102,10 +115,10 @@ const Profile = ({ isAuth }) => {
       instagram: document.getElementById("instagramInput").value,
       email,
       snapchat: document.getElementById("snapchatInput").value,
-      profilePicURL: downloadURL
+      profilePicURL // Use the prepared profilePicURL
     });
     console.log("Profile updated successfully");
-
+  
     // Retrieve profile info when updated
     getDocs(userColRef)
     .then((snapshot) => {
@@ -123,14 +136,13 @@ const Profile = ({ isAuth }) => {
     .catch(err => {
       console.log(err);
     }); 
-
+  
     setEditMajor(false);
-
+  
     // Display "Saved!" Message
     document.getElementById("saveMessage").style.display = "block";
     document.getElementById("invalidEmailMessage").style.display = "none";
   };
-
   // UI
   return (
     <div className="page">      
@@ -160,7 +172,11 @@ const Profile = ({ isAuth }) => {
       <div className="inputSection">
         <b className="inputHeader">My Classes</b>
         <div className="note">Note: Separate classes using commas.</div>
-        <input id="classesInput" className="inputSmall" placeholder="Format: CHEM102, MATH221, etc."></input>
+        {/* Hardcoded options for testing */}
+        <ReactSelect id="classesInput" className="dropdown"
+          options={classOptions}
+          isMulti
+        />
       </div>
       <br/>
 

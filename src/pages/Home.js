@@ -1,24 +1,24 @@
+// Home.js
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { db, auth } from "../firebase-config";
 import { Link } from "react-router-dom";
 import { getDocs, collection } from 'firebase/firestore';
 import '../Styles.css';
+import { classOptions } from '../utils/class-options';
 
 const Home = ({ isAuth }) => {
-
   let navigate = useNavigate();
+  const [usersList, setUsersList] = useState([]); 
+  const usersColRef = collection(db, "users");
+  let myClasses = [];
+  let myMajor = "";
 
   useEffect(() => {
     if (!isAuth) {
       navigate("/");
     }
   }, []);
-
-  const [usersList, setUsersList] = useState([]); 
-  const usersColRef = collection(db, "users");
-  let myClasses = [];
-  let myMajor = "";
 
   useEffect(() => {
     getDocs(usersColRef)

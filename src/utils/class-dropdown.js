@@ -1,5 +1,3 @@
-// class-options.js
-
 const classOptions = [
     { "code": "AAS 100", "name": "Intro Asian American Studies" },
     { "code": "AAS 200", "name": "U.S. Race and Empire" },
@@ -1327,6 +1325,4 @@ const classOptions = [
     { "code": "DTX 499", "name": "Multidisciplinary Innovation Studio" },
     
   ];
-  
-  export default classOptions;
   

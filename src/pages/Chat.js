@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import classOptions from '../utils/class-options'; // Importing class options
 import ClassChat from '../utils/ClassChat'; // Import the ClassChat component
+import { db, auth, serverTimestamp } from "../firebase-config";
+import { addDoc, collection } from "firebase/firestore";
 
-const Chat = ({ isAuth }) => {
+const Chat = ({ isAuth, onJoinClass }) => {
   const [selectedClass, setSelectedClass] = useState('');
   const navigate = useNavigate();
 
@@ -31,14 +33,24 @@ const Chat = ({ isAuth }) => {
     
     // Set the selected class as the current chat
     setSelectedClass(className);
+    onJoinClass(className);
   };
 
   // Function to send a message to the current chat
-  const sendMessage = (message) => {
-    const updatedChats = { ...classChats };
-    updatedChats[selectedClass].push(message);
-    setClassChats(updatedChats);
+  // Update the sendMessage function in Chat.js
+  const sendMessage = async (message) => {
+    try {
+      // Add the message to the respective class chat collection in Firestore
+      await addDoc(collection(db, `classChats/${selectedClass}/messages`), {
+        message: message,
+        displayName: auth.currentUser.displayName, // Get the user's display name from authentication
+        timestamp: serverTimestamp() // Add a timestamp for sorting messages
+      });
+    } catch (error) {
+      console.error("Error sending message:", error);
+    }
   };
+
 
   return (
     <div className="page">
@@ -59,13 +71,7 @@ const Chat = ({ isAuth }) => {
       </div>
 
       {/* Render the ClassChat component if a class is selected */}
-      {selectedClass && classChats[selectedClass] && (
-        <ClassChat
-          className={selectedClass}
-          messages={classChats[selectedClass]}
-          sendMessage={sendMessage}
-        />
-      )}
+      
     </div>
   );
 };
