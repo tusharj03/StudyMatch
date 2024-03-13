@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import classOptions from '../utils/class-options'; // Importing class options
 import ClassChat from '../utils/ClassChat'; // Import the ClassChat component
-import { db, auth, serverTimestamp } from "../firebase-config";
-import { addDoc, collection } from "firebase/firestore";
+import { db, auth, serverTimestamp, storage } from "../firebase-config";
+import { addDoc, collection, ref, uploadBytes } from "firebase/firestore";
 
 const Chat = ({ isAuth, onJoinClass }) => {
   const [selectedClass, setSelectedClass] = useState('');

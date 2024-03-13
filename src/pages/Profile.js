@@ -9,23 +9,14 @@ import { stylesLight, stylesDark } from '../utils/dropdown-settings'
 import { majorOptions } from '../utils/major-options'
 import '../Styles.css';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-// import { classOptions } from '../utils/class-options'; // Commented out the import
-
-// Hardcoded class options for testing
-const classOptions = [
-    { value: 'AAS 100', label: 'Intro Asian American Studies' },
-    { value: 'AAS 200', label: 'U.S. Race and Empire' },
-    { value: 'AAS 201', label: 'US Racial & Ethnic Politics' },
-    { value: 'AAS 275', label: 'The Politics of Fashion' },
-    { value: 'AAS 283', label: 'Asian American History' },
-    // Add more options as needed
-];
+import { classOptions } from '../utils/class-dropdown';
 
 const Profile = ({ isAuth }) => {
   
   const [profilePicURL, setProfilePicURL] = useState(""); // State to hold profile picture URL
   const navigate = useNavigate();
-  
+  const [selectedClasses, setSelectedClasses] = useState([]); 
+
   // Function to handle profile picture change
   const handleProfilePicChange = async (event) => {
     const file = event.target.files[0];
@@ -35,11 +26,8 @@ const Profile = ({ isAuth }) => {
       await uploadBytes(storageRef, file);
       const downloadURL = await getDownloadURL(storageRef);
   
-      // Set profilePicURL state only if downloadURL is available
       if (downloadURL) {
         setProfilePicURL(downloadURL); // Set the downloaded URL to state
-
-        updateProfile(downloadURL);
       } else {
         console.error("Failed to retrieve profile picture download URL.");
       }
@@ -48,15 +36,17 @@ const Profile = ({ isAuth }) => {
     }
   }
   
-
+  let nagivate = useNavigate();
   const userColRef = collection(db, "users");
   const [major, setMajor] = useState("");
   const [editMajor, setEditMajor] = useState(false);
+  const [classes, setClasses] = useState([]);
+
 
   // If user not authenticated, redirect to login page
   useEffect(() => {
     if (!isAuth) {
-      navigate("/");
+      nagivate("/");
     }
   }, []);
   // Retrieve profile info when page loads
@@ -66,11 +56,12 @@ const Profile = ({ isAuth }) => {
       snapshot.docs.forEach((doc) => {
         if (doc.id == auth.currentUser.uid) {
           document.getElementById("majorInput").textContent = doc.data().major;
-          document.getElementById("classesInput").value = doc.data().classes.join(", ");
+          setSelectedClasses(doc.data().classes.map(classItem => ({ value: classItem, label: classItem })));
           document.getElementById("bioInput").value = doc.data().bio;
           document.getElementById("instagramInput").value = doc.data().instagram;
           document.getElementById("emailInput").value = doc.data().email;
           document.getElementById("snapchatInput").value = doc.data().snapchat;
+          setProfilePicURL(doc.data().profilePicURL); // Set profile picture URL
         }
       });
     })
@@ -80,13 +71,12 @@ const Profile = ({ isAuth }) => {
   }, []);
 
   // Update profile
-  const updateProfile = async (downloadURL) => {
-    console.log("Update Profile function called");
+  const updateProfile = async () => {
     // Prepare major and class data to pass into database
     let majorToUpdate = "";
     
     if (editMajor) {
-      major.value == null ? majorToUpdate = [] : majorToUpdate = major.value;
+      major.value == null ? (majorToUpdate = []) : (majorToUpdate = major.value);
     } else {
       majorToUpdate = document.getElementById("majorInput").textContent;
     }
@@ -95,7 +85,7 @@ const Profile = ({ isAuth }) => {
     const validateEmail = (email) => {
       const re = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
       return re.test(email);
-    }
+    };
     const email = document.getElementById("emailInput").value;
     if (!(validateEmail(email) || email === "")) {
       document.getElementById("saveMessage").style.display = "none";
@@ -103,51 +93,37 @@ const Profile = ({ isAuth }) => {
       return;
     }
   
-    // Prepare the profile pic URL
-    const profilePicURL = downloadURL || profilePicURL; // Use the new downloadURL if available, otherwise keep the current one
-  
     // Add/update to Cloud Firestore
     await setDoc(doc(db, "users", auth.currentUser.uid), {
       major: majorToUpdate,
       name: auth.currentUser.displayName,
-      classes: document.getElementById("classesInput").value.split(",").map(x => x.trim()),
+      classes: selectedClasses.map((classItem) => classItem.value),
       bio: document.getElementById("bioInput").value,
       instagram: document.getElementById("instagramInput").value,
       email,
       snapchat: document.getElementById("snapchatInput").value,
-      profilePicURL // Use the prepared profilePicURL
+      profilePicURL, // Use the current profile picture URL
     });
     console.log("Profile updated successfully");
-  
-    // Retrieve profile info when updated
-    getDocs(userColRef)
-    .then((snapshot) => {
-      snapshot.docs.forEach((doc) => {
-        if (doc.id == auth.currentUser.uid) {
-          document.getElementById("majorInput").textContent = doc.data().major;
-          document.getElementById("classesInput").value = doc.data().classes.join(", ");
-          document.getElementById("bioInput").value = doc.data().bio;
-          document.getElementById("instagramInput").value = doc.data().instagram;
-          document.getElementById("emailInput").value = doc.data().email;
-          document.getElementById("snapchatInput").value = doc.data().snapchat;
-        }
-      });
-    })
-    .catch(err => {
-      console.log(err);
-    }); 
-  
-    setEditMajor(false);
   
     // Display "Saved!" Message
     document.getElementById("saveMessage").style.display = "block";
     document.getElementById("invalidEmailMessage").style.display = "none";
+
+    setTimeout(() => {
+      document.getElementById("saveMessage").style.display = "none";
+    }, 1500);
   };
+  
+  
+
   // UI
   return (
     <div className="page">      
       <h1 className='title'>My Profile</h1>
       <h1></h1>
+      {/* Display profile picture */}
+      {profilePicURL && <img src={profilePicURL} alt="Profile" className="profilePic" />}
       <h2 className="inputHeaderBig">About</h2>
       <div className="inputSection">
         <b className="inputHeader">My Major</b>
@@ -171,14 +147,14 @@ const Profile = ({ isAuth }) => {
       
       <div className="inputSection">
         <b className="inputHeader">My Classes</b>
-        <div className="note">Note: Separate classes using commas.</div>
-        {/* Hardcoded options for testing */}
-        <ReactSelect id="classesInput" className="dropdown"
+        <div className="note">Note: Select classes from the dropdown.</div>
+        <ReactSelect
           options={classOptions}
           isMulti
+          value={selectedClasses}
+          onChange={(selectedOptions) => setSelectedClasses(selectedOptions)}
         />
       </div>
-      <br/>
 
       <div className="inputSection">
         <b className="inputHeader">About Me</b>
@@ -214,7 +190,7 @@ const Profile = ({ isAuth }) => {
 
 
       <br/>
-      <button className="button1" id='savebutton' onClick={updateProfile}>Save Profile</button> 
+      <button className="button1" id='savebutton' onClick={() => updateProfile()}>Save Profile</button> 
       <div id="saveMessage" className="message">Saved!</div>
       <div id="invalidEmailMessage" className="message">Email address is not valid.</div>
     </div>

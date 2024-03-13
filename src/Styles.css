@@ -314,6 +314,15 @@ body {
   margin-left: 3rem;
 }
 
+.profilePic {
+  width: 100px; /* Adjust the width as needed */
+  height: 100px;
+  margin-bottom: .75rem; /* Adjust the height as needed */
+  border-radius: 50%;
+  display: inline-block;
+  margin-left: 3rem;
+}
+
 .userContent {
   resize: none;
   border: none;

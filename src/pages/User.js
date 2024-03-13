@@ -60,10 +60,9 @@ const User = ({ isAuth }) => {
       {renderProfilePic()} {/* Display profile picture here */}
       <br/>
       <br/>
-      <div id="userClasses" className="userSection">
-        <b className="userContentHeader">Classes</b>
-        <div id="userContentClasses" className="userContent">{user.classes.join(", ")}</div>
-      </div>
+      <b className="userProfileHeader">Classes</b>
+      <br/>
+      <div id="userProfileClasses" className="userProfileContent"></div>
       <br/>
       <b className="userProfileHeader">About</b>
       <br/>

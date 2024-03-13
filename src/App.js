@@ -70,37 +70,24 @@ const App = () =>  {
     }
   };
   
-  const handleLeaveClass = async (className) => {
+  const handleLeaveClass = (className) => {
     if (joinedClasses.includes(className)) {
       // Filter out the class to leave
       const updatedJoinedClasses = joinedClasses.filter(c => c !== className);
-  
+      
       // Update joinedClasses state
       setJoinedClasses(updatedJoinedClasses);
   
       // Update local storage with the updated joined classes
       localStorage.setItem("joinedClasses", JSON.stringify(updatedJoinedClasses));
-  
-      // Update Firestore to remove the class from user's joined classes
+      
+      // Update Firestore to remove the class
       const userRef = doc(db, 'users', auth.currentUser.uid);
-      await updateDoc(userRef, {
+      updateDoc(userRef, {
         joinedClasses: updatedJoinedClasses
       });
-  
-      // Remove the user from the participants collection
-      try {
-        const participantsRef = collection(db, `classChats/${className}/participants`);
-        const participantQuery = query(participantsRef, where("userId", "==", auth.currentUser.uid));
-        const participantSnapshot = await getDocs(participantQuery);
-        participantSnapshot.forEach(async (doc) => {
-          await deleteDoc(doc.ref);
-        });
-      } catch (error) {
-        console.error("Error removing participant:", error);
-      }
     }
   };
-  
 
   return (
     <Router>

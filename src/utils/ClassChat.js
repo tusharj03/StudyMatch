@@ -1,15 +1,19 @@
 // ClassChat.js
 
 import React, { useEffect, useState } from 'react';
-import { auth, db, serverTimestamp, collection, addDoc, query, orderBy, onSnapshot } from '../firebase-config';
+import { auth, db, serverTimestamp, collection, addDoc, query, orderBy, onSnapshot, storage } from '../firebase-config';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import '../Styles.css';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import { getDocs, deleteDoc } from 'firebase/firestore';
 
 const ClassChat = ({ onLeaveClass }) => {
+  const navigate = useNavigate();
   const { className } = useParams();
   const [newMessage, setNewMessage] = useState('');
   const [messages, setMessages] = useState([]);
   const [participants, setParticipants] = useState([]);
+  const [selectedFile, setSelectedFile] = useState(null);
 
   const handleLeaveClass = () => {
     onLeaveClass(className);
@@ -61,9 +65,83 @@ const ClassChat = ({ onLeaveClass }) => {
     }
   };
 
-  const handleLeaveClassClick = () => {
+  const handleLeaveClassClick = async () => {
     onLeaveClass(className);
+    try {
+      // Remove the participant from Firestore
+      const participantRef = collection(db, `classChats/${className}/participants`);
+      const querySnapshot = await getDocs(participantRef);
+      querySnapshot.forEach(async (doc) => {
+        if (doc.data().userId === auth.currentUser.uid) {
+          await deleteDoc(doc.ref);
+        }
+      });
+      // Trigger a re-render by updating state or using onSnapshot()
+      // Optionally, you can also navigate the user back to the chat selection page or perform any other desired actions.
+      navigate('/chat');
+    } catch (error) {
+      console.error("Error leaving class:", error);
+    }
   };
+
+  const handleFileUpload = async () => {
+    if (selectedFile) {
+      try {
+        const fileName = selectedFile.name;
+        const fileRef = ref(storage, `classChats/${className}/${fileName}`);
+        await uploadBytes(fileRef, selectedFile);
+        const fileUrl = await getDownloadURL(fileRef);
+  
+        // Determine the file type based on its extension
+        const fileType = fileName.split('.').pop().toLowerCase();
+  
+        let messageContent;
+  
+        // Handle different file types accordingly
+        switch (fileType) {
+          case 'txt':
+          case 'md':
+            // For text files, read the content
+            const textResponse = await fetch(fileUrl);
+            messageContent = await textResponse.text();
+            break;
+          case 'jpg':
+          case 'jpeg':
+          case 'png':
+          case 'gif':
+            // For image files, display the image directly
+            messageContent = `<img src="${fileUrl}" alt="${fileName}" style="max-width: 100%;"/>`;
+            break;
+          default:
+            // For other file types (e.g., PDF, DOCX), display a download link
+            messageContent = `<a href="${fileUrl}" target="_blank" rel="noopener noreferrer">${fileName}</a>`;
+            break;
+        }
+  
+        // Construct a message object with the file content
+        const messageObject = {
+          message: messageContent,
+          displayName: auth.currentUser.displayName,
+          timestamp: serverTimestamp(),
+          fileUrl: fileUrl,
+          fileName: fileName
+        };
+  
+        // Add the message object to Firestore
+        await addDoc(collection(db, `classChats/${className}/messages`), messageObject);
+  
+        // Clear selected file after upload
+        setSelectedFile(null);
+  
+      } catch (error) {
+        console.error("Error uploading file:", error);
+      }
+    } else {
+      console.error("No file selected.");
+    }
+  };
+  
+  
 
   return (
     <div className="class-chat-container"> {/* Add class name to the container */}
@@ -77,10 +155,11 @@ const ClassChat = ({ onLeaveClass }) => {
         </ul>
       </div>
       <div>
-        {messages.map((message, index) => (
-          <div key={index} className="class-chat-message"> {/* Add class name to messages */}
-            <strong>{message.displayName}: </strong>{message.message}
-          </div>
+      {messages.map((message, index) => (
+        <div key={index} className="class-chat-message">
+          <strong>{message.displayName}: </strong>
+          <div dangerouslySetInnerHTML={{ __html: message.message }}></div>
+        </div>
         ))}
       </div>
       <div>
@@ -93,6 +172,13 @@ const ClassChat = ({ onLeaveClass }) => {
         />
         <button className="class-chat-button" onClick={handleSendMessage}>Send</button> {/* Add class name to the button */}
         <button className="class-chat-button" onClick={handleLeaveClassClick}>Leave Class</button>
+        <div>
+  <input
+    type="file"
+    onChange={(e) => setSelectedFile(e.target.files[0])}
+  />
+  <button className="class-chat-button" onClick={handleFileUpload}>Upload File</button>
+</div>
       </div>
     </div>
   );
