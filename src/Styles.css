@@ -1009,4 +1009,21 @@ body {
     cursor: pointer;
   }
   
+  .search-bar {
+    /* Remove position: fixed; */
+    top: auto;
+    right: auto;
+    /* Adjust margin-top to create space under the sidebar */
+    margin-top: 70px; /* Adjust this value as needed */
+  }
+
+  .search-bar {
+    /* Remove position: fixed; */
+    top: auto;
+    right: auto;
+    /* Adjust margin-top to position it below the "My Matches" title */
+    margin-top: 20px; /* Adjust this value as needed */
+    position: relative;
+  }
+  
 }
