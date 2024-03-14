@@ -96,7 +96,10 @@ const Home = ({ isAuth }) => {
             <img src={user.profilePicURL ? user.profilePicURL : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"} alt="Profile Picture" className="profile-pic" />
           </Link>
           <br/>
-          <div id="userContentMajor" className="userContent"><b>{user.major}</b></div>
+          <div id="userContentMajor" className="userContent" style={{ wordBreak: 'break-word' }}>
+  <b>{user.major}</b>
+</div>
+
           <br/>
 
           <div id="userClasses" className="userSection">
@@ -109,6 +112,7 @@ const Home = ({ isAuth }) => {
             <b className="userContentHeader">About</b>
             <div id="userContentBio" className="userContent">{user.bio}</div>
           </div>
+          
         </div>
       ))}
     </div>

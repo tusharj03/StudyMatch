@@ -151,12 +151,17 @@ const Profile = ({ isAuth }) => {
       <div className="inputSection">
         <b className="inputHeader">My Classes</b>
         <div className="note">Note: Select classes from the dropdown.</div>
-        <ReactSelect id="majorDropdown"
+        <ReactSelect id="majorDropdown" className="dropdown profile-select-control"
           options={classOptions}
           isMulti
           value={selectedClasses}
-          onChange={(selectedOptions) => setSelectedClasses(selectedOptions)}
-          styles={localStorage.getItem("theme") === "theme-light" ? stylesLight : stylesDark}
+          onChange={(selectedOptions) => {
+            const selectedClassesWithCodes = selectedOptions.map(option => ({ value: option.value, label: option.value }));
+            setSelectedClasses(selectedClassesWithCodes);
+          }}
+          styles={{
+            ...localStorage.getItem("theme") === "theme-light" ? stylesLight : stylesDark,
+          }}
         />
       </div>
 

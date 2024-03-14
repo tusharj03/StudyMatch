@@ -104,6 +104,7 @@ body {
   top: 0;
   position: absolute;
   width: 10rem;
+  position: fixed;
 }
 .sidebar a{
   position: relative;
@@ -551,6 +552,12 @@ body {
   color: var(--color2);
 }
 
+  .profile-select-control {
+    max-width: 375px;
+    background-color: #FCEEEE;
+    border-color: inherit;
+  }
+
 #contact{
   margin-left:125%;
   margin-top:-418px;
@@ -562,6 +569,7 @@ body {
 }
 
 }
+
 
 .inputSection {
   margin-bottom: 20px; /* Adjust the value as needed */
@@ -677,6 +685,7 @@ body {
   display: flex; /* Change to flex container */
   align-items: center; /* Vertically center items */
   margin-top: 10px;
+  font-size: 14px;
 }
 
 /* Button styles */
@@ -687,6 +696,7 @@ body {
   background-color: #007bff;
   color: #fff;
   cursor: pointer;
+  font-size: 14px;
   margin-right: 10px; /* Add margin to create space between buttons */
 }
 
@@ -752,7 +762,7 @@ body {
 
 
 .upload-chat-button {
-  padding: 2.75px 17px; /* Increased padding for better spacing */
+  padding: 5px 20px; /* Increased padding for better spacing */
   border: none;
   border-radius: 5px;
   background-color: #007bff;
