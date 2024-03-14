@@ -1,6 +1,4 @@
-// ClassChat.js
-
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { auth, db, serverTimestamp, collection, addDoc, query, orderBy, onSnapshot, storage } from '../firebase-config';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import '../Styles.css';
@@ -14,9 +12,16 @@ const ClassChat = ({ onLeaveClass }) => {
   const [messages, setMessages] = useState([]);
   const [participants, setParticipants] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
+  const [showParticipants, setShowParticipants] = useState(false);
+
+  const messagesEndRef = useRef(null);
 
   const handleLeaveClass = () => {
     onLeaveClass(className);
+  };
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   useEffect(() => {
@@ -30,6 +35,7 @@ const ClassChat = ({ onLeaveClass }) => {
         updatedMessages.push(doc.data());
       });
       setMessages(updatedMessages);
+      scrollToBottom();
     });
   
     // Fetch participants from Firestore
@@ -50,15 +56,20 @@ const ClassChat = ({ onLeaveClass }) => {
   
 
   const handleSendMessage = async () => {
-    if (newMessage.trim() !== '') {
+    if (newMessage.trim() !== '' || selectedFile) {
       try {
-        // Add the new message to Firestore
-        await addDoc(collection(db, `classChats/${className}/messages`), {
-          message: newMessage,
-          displayName: auth.currentUser.displayName,
-          timestamp: serverTimestamp()
-        });
+        if (selectedFile) {
+          await handleFileUpload();
+        } else {
+          // Add the new text message to Firestore
+          await addDoc(collection(db, `classChats/${className}/messages`), {
+            message: newMessage,
+            displayName: auth.currentUser.displayName,
+            timestamp: serverTimestamp()
+          });
+        }
         setNewMessage('');
+        setSelectedFile(null);
       } catch (error) {
         console.error("Error sending message:", error);
       }
@@ -110,7 +121,7 @@ const ClassChat = ({ onLeaveClass }) => {
           case 'png':
           case 'gif':
             // For image files, display the image directly
-            messageContent = `<img src="${fileUrl}" alt="${fileName}" style="max-width: 100%;"/>`;
+            messageContent = `<img src="${fileUrl}" alt="${fileName}" class="chat-image"/>`;
             break;
           default:
             // For other file types (e.g., PDF, DOCX), display a download link
@@ -141,47 +152,67 @@ const ClassChat = ({ onLeaveClass }) => {
     }
   };
   
-  
+  const toggleParticipantsList = () => {
+    setShowParticipants(!showParticipants);
+  };
+
+  const handleFileInputChange = (e) => {
+    setSelectedFile(e.target.files[0]);
+    setNewMessage(e.target.files[0].name); // Display file name in the input
+  };
 
   return (
-    <div className="class-chat-container"> {/* Add class name to the container */}
-      <h2>Class Chat: {className}</h2>
-      <div>
-        <h3>Participants:</h3>
-        <ul>
-          {participants.map((participant, index) => (
-            <li key={index}>{participant.displayName}</li>
-          ))}
-        </ul>
-      </div>
-      <div>
-      {messages.map((message, index) => (
-        <div key={index} className="class-chat-message">
-          <strong>{message.displayName}: </strong>
-          <div dangerouslySetInnerHTML={{ __html: message.message }}></div>
+    <div className={`class-chat-container ${showParticipants ? 'show-participants' : ''}`}>
+      <div className="class-chat-main">
+        <h2>Class Chat: {className}</h2>
+        <button className="leave-class-button" onClick={handleLeaveClassClick}>Leave Class</button>
+        <button className="participants-toggle-button" onClick={toggleParticipantsList}>
+          {showParticipants ? "Hide Participants" : "View Participants"}
+        </button>
+        <div className="messages-section">
+          <div className="class-chat-messages">
+            {messages.map((message, index) => (
+              <div key={index} className="class-chat-message">
+                <strong>{message.displayName}: </strong>
+                <div dangerouslySetInnerHTML={{ __html: message.message }}></div>
+              </div>
+            ))}
+            <div ref={messagesEndRef} />
+          </div>
+          <div className="send-message-section">
+            <input
+              className="class-chat-input"
+              type="text"
+              value={newMessage}
+              onChange={(e) => setNewMessage(e.target.value)}
+              placeholder="Type your message..."
+            />
+            
+          </div>
+          <div className="file-upload-section">
+            <label htmlFor="file-upload" className="upload-chat-button">Upload File</label>
+            <input
+              id="file-upload"
+              type="file"
+              style={{ display: 'none' }}
+              onChange={handleFileInputChange}
+            />
+            <button className="class-chat-button" onClick={handleSendMessage}>Send</button>
+          </div>
         </div>
-        ))}
       </div>
-      <div>
-        <input
-          className="class-chat-input" // Add class name to the input field
-          type="text"
-          value={newMessage}
-          onChange={(e) => setNewMessage(e.target.value)}
-          placeholder="Type your message..."
-        />
-        <button className="class-chat-button" onClick={handleSendMessage}>Send</button> {/* Add class name to the button */}
-        <button className="class-chat-button" onClick={handleLeaveClassClick}>Leave Class</button>
-        <div>
-  <input
-    type="file"
-    onChange={(e) => setSelectedFile(e.target.files[0])}
-  />
-  <button className="class-chat-button" onClick={handleFileUpload}>Upload File</button>
-</div>
-      </div>
+      {showParticipants && (
+        <div className="participants-section">
+          <h3>Participants:</h3>
+          <ul className="participants-list">
+            {participants.map((participant, index) => (
+              <li key={index}>{participant.displayName}</li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
-};
+};  
 
 export default ClassChat;

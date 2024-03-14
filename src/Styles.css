@@ -307,11 +307,13 @@ body {
 
 .profile-pic {
   width: 100px; /* Adjust the width as needed */
-  height: 100px;
-  margin-bottom: .75rem; /* Adjust the height as needed */
+  height: 100px;/* Adjust the height as needed */
   border-radius: 50%;
-  display: inline-block;
-  margin-left: 3rem;
+  text-align: center; /* Center the text */
+  margin: auto; /* Center horizontally */
+  display: block; 
+  margin-top: 1rem;
+  object-fit: cover;
 }
 
 .profilePic {
@@ -321,6 +323,7 @@ body {
   border-radius: 50%;
   display: inline-block;
   margin-left: 3rem;
+  object-fit: cover;
 }
 
 .userContent {
@@ -343,6 +346,10 @@ body {
   font-size: 1.2rem;
   height: 2.rem;
   overflow: hidden;
+  text-align: center; /* Center the text */
+  margin: auto;
+  margin-top: 1rem; /* Center horizontally */
+  display: block; 
 }
 #userDisplayName:hover {
   text-decoration: underline;
@@ -350,7 +357,10 @@ body {
 
 #userContentMajor {
   color: var(--color1);
-  margin: -1.2rem 0rem -0.2rem;
+  text-align: center; /* Center the text */
+  margin: auto; /* Center horizontally */
+  display: block; 
+  font-size: 16px;
 }
 
 #userContentClasses {
@@ -437,6 +447,31 @@ body {
   color: var(--color1)
 }
 
+.profilePicButton {
+  display: inline-block;
+  background-color: var(--color1);
+  border-radius: 0.7rem;
+  border: 0;
+  position: relative;
+  padding: 0.6rem 1rem;
+  margin-top:10px;
+  
+  /* Font, Font size, color */
+  font-size: 1rem;
+  color: var(--color2);
+}
+
+.profilePicButton:hover {
+  background-color: var(--color4);
+  color: var(--color2);
+}
+
+.profilePicButton:active {
+  background-color: var(--color1);
+  color: var(--color2);
+}
+
+
 /* USER PROFILES */
 
 #userProfileMajor {
@@ -517,8 +552,13 @@ body {
 }
 
 #contact{
-  margin-left:140%;
+  margin-left:125%;
   margin-top:-418px;
+}
+
+#matchUser{
+  margin-left:250%;
+  margin-top:-360px;
 }
 
 }
@@ -531,6 +571,11 @@ body {
 
 /* Styles for the container of the class chat */
 
+/* Add these styles to your existing Styles.css or create a new CSS file */
+
+/* ClassChat styles */
+
+/* Container styles */
 .class-chat-container {
   margin-left: 12rem;
   margin-top: 3rem;
@@ -539,35 +584,184 @@ body {
   border: 1px solid #ccc;
   border-radius: 5px;
   background-color: #f9f9f9;
+  height: 80vh;
+
 }
 
-/* Styles for the messages in the class chat */
-.class-chat-message {
+.class-chat-main {
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+/* Participants section styles */
+.participants-section {
+  width: 200px; /* Set the width of the participants section */
+  overflow-y: auto;
+  border-left: 1px solid #ccc;
+  padding: 10px;
+  position: absolute;
+  top: 120px; /* Adjust based on button height */
+  right: 0;
+  width: 200px;
+}
+
+.participants-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.show-participants .class-chat-main {
+  flex-grow: 0;
+  max-width: calc(100% - 200px); /* Adjust the width when participants are shown */
+}
+
+.participants-toggle-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  position: absolute;
+  top: 62px;
+  right: 150px;
+}
+
+.participants-toggle-button:hover {
+  background-color: #0056b3;
+}
+
+
+
+.participants-list li {
+  margin-bottom: 5px;
+}
+
+/* Messages section styles */
+.messages-section {
+  height: 70vh; /* Set a fixed height for the messages section */
+  overflow-y: scroll; /* Add vertical scroll */
+}
+
+.class-chat-messages {
   margin-bottom: 10px;
+}
+
+/* Message styles */
+.class-chat-message {
   padding: 10px;
   border-radius: 5px;
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
 }
 
-/* Styles for the input and button in the class chat */
+/* Send message section styles */
+.send-message-section {
+  display: flex;
+  align-items: center;
+}
+
 .class-chat-input {
-  margin-top: 10px;
-  padding: 5px 10px;
+  flex: 1;
+  padding: 10px 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
+  margin-right: 10px;
+  margin-top: 5px;
 }
 
+/* File upload section styles */
+.file-upload-section {
+  display: flex; /* Change to flex container */
+  align-items: center; /* Vertically center items */
+  margin-top: 10px;
+}
+
+/* Button styles */
 .class-chat-button {
-  margin-left: 10px;
-  padding: 5px 10px;
+  padding: 5px 20px; /* Increased padding for better spacing */
   border: none;
   border-radius: 5px;
   background-color: #007bff;
   color: #fff;
   cursor: pointer;
+  margin-right: 10px; /* Add margin to create space between buttons */
 }
 
 .class-chat-button:hover {
+  background-color: #0056b3;
+}
+
+/* File input styles */
+.file-input {
+  display: none;
+}
+
+
+/*CHAT.JS*/
+
+
+.button-container {
+  text-align: center;
+}
+
+.button-container button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: var(--color1);
+  color: var(--color2);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button-container button:hover {
+  background-color: var(--color4);
+  color: var(--color2);
+}
+
+/* Styles.css */
+.chat-image {
+  max-width: 100%;
+  max-height: 350px; /* Adjust height as needed */
+}
+
+.leave-class-button {
+  position: absolute;
+  top: 62px;
+  right: 60px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.leave-class-button:hover {
+  background-color: #0056b3;
+}
+
+.send-message-section,
+.file-upload-section {
+  flex: none; /* Do not grow; maintain natural height */
+}
+
+
+.upload-chat-button {
+  padding: 2.75px 17px; /* Increased padding for better spacing */
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+  margin-right: 10px; /* Add margin to create space between buttons */
+}
+
+.upload-chat-button:hover {
   background-color: #0056b3;
 }

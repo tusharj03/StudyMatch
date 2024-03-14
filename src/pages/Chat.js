@@ -4,10 +4,15 @@ import classOptions from '../utils/class-options'; // Importing class options
 import ClassChat from '../utils/ClassChat'; // Import the ClassChat component
 import { db, auth, serverTimestamp, storage } from "../firebase-config";
 import { addDoc, collection, ref, uploadBytes } from "firebase/firestore";
+import '../Styles.css';
+import { stylesLight, stylesDark } from '../utils/dropdown-settings';
+import Select from 'react-select';
 
 const Chat = ({ isAuth, onJoinClass }) => {
   const [selectedClass, setSelectedClass] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
+  const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
     if (!isAuth) {
@@ -64,29 +69,28 @@ const Chat = ({ isAuth, onJoinClass }) => {
     }
   };
 
+  const selectStyles = darkMode ? stylesDark : stylesLight;
 
   return (
     <div className="page">
       <h1 className="title">Chat</h1>
-      <div>
-        <h2>Select a Class:</h2>
-        <select value={selectedClass} onChange={(e) => setSelectedClass(e.target.value)}>
-          <option value="">Select a class...</option>
-          {classOptions.map((classItem) => (
-            <option key={classItem.code} value={classItem.code}>
-              {classItem.code} - {classItem.name}
-            </option>
-          ))}
-        </select>
-        {selectedClass && (
-          <button onClick={() => joinClassChat(selectedClass)}>Join {selectedClass} Chat</button>
-        )}
+      <div className="select-container">
+        <h2 className="inputHeaderBig">Select a Class:</h2>
+        <Select
+          value={{ value: selectedClass, label: selectedClass }}
+          onChange={(option) => setSelectedClass(option.value)}
+          options={classOptions.map((classItem) => ({ value: classItem.code, label: `${classItem.code} - ${classItem.name}` }))}
+          styles={selectStyles}
+        />
       </div>
-
-      {/* Render the ClassChat component if a class is selected */}
-      
+      {selectedClass && (
+        <div className="button-container"> {/* Added div container */}
+          <button onClick={() => joinClassChat(selectedClass)}>Join {selectedClass} Chat</button>
+        </div>
+      )}
     </div>
   );
+  
 };
 
 export default Chat;

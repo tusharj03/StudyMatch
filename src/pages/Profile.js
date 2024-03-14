@@ -16,6 +16,9 @@ const Profile = ({ isAuth }) => {
   const [profilePicURL, setProfilePicURL] = useState(""); // State to hold profile picture URL
   const navigate = useNavigate();
   const [selectedClasses, setSelectedClasses] = useState([]); 
+  const [bio, setBio] = useState(""); // State to hold bio content
+
+  
 
   // Function to handle profile picture change
   const handleProfilePicChange = async (event) => {
@@ -49,6 +52,7 @@ const Profile = ({ isAuth }) => {
       nagivate("/");
     }
   }, []);
+
   // Retrieve profile info when page loads
   useEffect(() => {
     getDocs(userColRef)
@@ -57,6 +61,7 @@ const Profile = ({ isAuth }) => {
         if (doc.id == auth.currentUser.uid) {
           document.getElementById("majorInput").textContent = doc.data().major;
           setSelectedClasses(doc.data().classes.map(classItem => ({ value: classItem, label: classItem })));
+          setBio(doc.data().bio);
           document.getElementById("bioInput").value = doc.data().bio;
           document.getElementById("instagramInput").value = doc.data().instagram;
           document.getElementById("emailInput").value = doc.data().email;
@@ -98,7 +103,7 @@ const Profile = ({ isAuth }) => {
       major: majorToUpdate,
       name: auth.currentUser.displayName,
       classes: selectedClasses.map((classItem) => classItem.value),
-      bio: document.getElementById("bioInput").value,
+      bio,
       instagram: document.getElementById("instagramInput").value,
       email,
       snapchat: document.getElementById("snapchatInput").value,
@@ -122,8 +127,6 @@ const Profile = ({ isAuth }) => {
     <div className="page">      
       <h1 className='title'>My Profile</h1>
       <h1></h1>
-      {/* Display profile picture */}
-      {profilePicURL && <img src={profilePicURL} alt="Profile" className="profilePic" />}
       <h2 className="inputHeaderBig">About</h2>
       <div className="inputSection">
         <b className="inputHeader">My Major</b>
@@ -148,25 +151,30 @@ const Profile = ({ isAuth }) => {
       <div className="inputSection">
         <b className="inputHeader">My Classes</b>
         <div className="note">Note: Select classes from the dropdown.</div>
-        <ReactSelect
+        <ReactSelect id="majorDropdown"
           options={classOptions}
           isMulti
           value={selectedClasses}
           onChange={(selectedOptions) => setSelectedClasses(selectedOptions)}
+          styles={localStorage.getItem("theme") === "theme-light" ? stylesLight : stylesDark}
         />
       </div>
 
       <div className="inputSection">
         <b className="inputHeader">About Me</b>
         <br/>
-        <textarea id="bioInput" className="inputLarge"></textarea>
+        <textarea id="bioInput" className="inputLarge" value={bio} onChange={(e) => setBio(e.target.value)}></textarea>
       </div>
       
       <div className="inputSection">
-        <b className="inputHeader">Profile Picture</b>
-        <br />
-        <input type="file" accept="image/*" onChange={handleProfilePicChange} />
-      </div>
+  <b className="inputHeader">Profile Picture</b>
+  <br />
+  <label htmlFor="profilePicInput" className="profilePicButton">
+    Choose Profile Picture
+  </label>
+  <input id="profilePicInput" type="file" accept="image/*" onChange={handleProfilePicChange} style={{ display: 'none' }} />
+</div>
+
 
       <div id="contact">
       <h2 className="inputHeaderBig" >Contact</h2>
@@ -187,13 +195,31 @@ const Profile = ({ isAuth }) => {
         <input id="snapchatInput" className="inputSmall" placeholder="username"></input>
       </div>
       </div>
+      
+      <div id="matchUser">
+      <div className="matchesUserBox">
+        <h2 id='userDisplayName'>My Profile</h2>
+        {profilePicURL && <img src={profilePicURL} alt="Profile" className="profile-pic" />}
+        
+        <br />
 
+        <b className="userProfileHeader">Classes</b>
+        <br/>
+        <div className="userProfileClasses">{selectedClasses.map((classItem) => classItem.label).join(", ")}</div>
+        <br/>
+        <b className="userProfileHeader">About</b>
+        <br/>
+        <div id="userProfileBio" className="userProfileContent">{bio}</div>
+        <br/>
+        </div>
+      </div>
 
       <br/>
       <button className="button1" id='savebutton' onClick={() => updateProfile()}>Save Profile</button> 
       <div id="saveMessage" className="message">Saved!</div>
       <div id="invalidEmailMessage" className="message">Email address is not valid.</div>
     </div>
+
   )
 }
 

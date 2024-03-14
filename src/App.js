@@ -1,5 +1,5 @@
 import './Styles.css';
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { db, auth } from "./firebase-config"
 import { signOut } from 'firebase/auth';
@@ -14,6 +14,7 @@ import { doc, getDoc, updateDoc } from 'firebase/firestore';
 
 const App = () =>  {
   
+
   const [isAuth, setIsAuth] = useState(localStorage.getItem("isAuth"));
   const [joinedClasses, setJoinedClasses] = useState([]);
 
