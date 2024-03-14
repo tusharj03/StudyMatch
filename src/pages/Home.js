@@ -10,6 +10,7 @@ import { classOptions } from '../utils/class-options';
 const Home = ({ isAuth }) => {
   let navigate = useNavigate();
   const [usersList, setUsersList] = useState([]); 
+  const [searchQuery, setSearchQuery] = useState('');
   const usersColRef = collection(db, "users");
   let myClasses = [];
   let myMajor = "";
@@ -46,14 +47,22 @@ const Home = ({ isAuth }) => {
   useEffect(() => {
     const getUsers = async () => {
       const data = await getDocs(usersColRef);
-      setUsersList(data.docs.filter(doc => doc.id !== auth.currentUser.uid).map((doc) => ({
-        ...doc.data(),
-        id: doc.id,
-        matchPoints: getMatchPoints(myClasses, doc.data().classes, myMajor, doc.data().major)
-      })));
+      const filteredUsers = data.docs
+        .filter(doc => doc.id !== auth.currentUser.uid)
+        .map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+          matchPoints: getMatchPoints(myClasses, doc.data().classes, myMajor, doc.data().major)
+        }))
+        .filter(user => 
+          user.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+          user.major.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          user.classes.some(cls => cls.toLowerCase().includes(searchQuery.toLowerCase()))
+        );
+      setUsersList(filteredUsers);
     } 
     getUsers();
-  }, []);
+  }, [searchQuery]);
 
   usersList.sort((a, b) => {
     if (a.matchPoints > b.matchPoints) {
@@ -65,8 +74,20 @@ const Home = ({ isAuth }) => {
     }
   })
 
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
   return (
     <div className='page'>
+      <div className="search-bar">
+        <input
+          type="text"
+          placeholder="Search for users..."
+          value={searchQuery}
+          onChange={handleSearchChange}
+        />
+      </div>
       <h1 className='title'>My Matches</h1>
       {usersList.map((user) => (
         <div className="matchesUserBox" key={user.id}>

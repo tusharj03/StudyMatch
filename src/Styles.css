@@ -765,3 +765,28 @@ body {
 .upload-chat-button:hover {
   background-color: #0056b3;
 }
+
+.search-bar {
+  position: fixed;
+  top: 20px;
+  right: 40px;
+}
+
+.search-bar input {
+  padding: 8px;
+  border: none;
+  border-radius: 5px;
+  background-color: #ffffff;
+  font-size: 16px;
+  width: 200px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.search-bar input:focus {
+  outline: none;
+  color: var(--color3);
+}
+
+.search-bar input::placeholder {
+  color: #999; /* Placeholder text color */
+}
