@@ -790,3 +790,49 @@ body {
 .search-bar input::placeholder {
   color: #999; /* Placeholder text color */
 }
+
+@media screen and (max-width: 767px) {
+  /* Styles for phones (max-width: 767px) */
+
+  /* Move sidebar to the bottom */
+  .sidebar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60px; /* Adjust height as needed */
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: var(--colorSidebar);
+    z-index: 9999; /* Ensure it appears above other content */
+  }
+
+  /* Adjust sidebar links */
+  .sidebar a {
+    position: relative;
+    top: 0; /* Reset top position */
+    left: 0; /* Reset left position */
+    float: none; /* Remove float */
+    padding: 0; /* Reset padding */
+    font-size: 14px; /* Adjust font size */
+    text-align: center; /* Center text */
+  }
+
+  /* Adjust logout button position */
+  #logoutButton {
+    position: absolute;
+    left: 50%;
+    bottom: 10px; /* Adjust as needed */
+    transform: translateX(-50%);
+  }
+
+  /* Hide other elements */
+  .page {
+    margin-top: 60px; /* Adjust to avoid overlapping with bottom bar */
+  }
+
+  .toggleThemeButton {
+    display: none;
+  }
+}
