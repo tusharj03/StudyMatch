@@ -794,6 +794,23 @@ body {
   display: none;
 }
 
+/* Add this CSS for the chat button */
+.chat-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: var(--color4);
+  border: none;
+  border-radius: 50%; /* Make it a circle */
+  padding: 17px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 1000; /* Ensure it's above other elements */
+}
+
+
 @media screen and (max-width: 767px) {
   /* Styles for phones (max-width: 767px) */
 
@@ -824,10 +841,12 @@ body {
 
   /* Adjust logout button position */
   #logoutButton {
-    position: absolute;
-    left: 50%;
-    bottom: 10px; /* Adjust as needed */
-    transform: translateX(-50%);
+    position: relative;
+    float: none; /* Remove float */
+    padding: 10px; /* Reset padding */
+    font-size: 14px; /* Adjust font size */
+    text-align: center;
+    bottom: 0; /* Adjust as needed */
   }
 
   /* Hide other elements */
@@ -839,13 +858,8 @@ body {
   .toggleThemeButton {
     display: none;
   }
-
-  #logoutButton {
-    position: fixed;
-    bottom: 10px; /* Adjust as needed */
-    right: 10px; /* Adjust as needed */
-    z-index: 9999;
-  }
+  
+  
 
   .classChat {
     margin-left: 10px;

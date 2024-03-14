@@ -11,13 +11,15 @@ import Chat from './pages/Chat';
 import ClassChat from './utils/ClassChat';
 import Toggle, { keepTheme } from "./utils/Toggle";
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMessage } from '@fortawesome/free-solid-svg-icons';
 
 const App = () =>  {
   
 
   const [isAuth, setIsAuth] = useState(localStorage.getItem("isAuth"));
   const [joinedClasses, setJoinedClasses] = useState([]);
-
+  
   const signUserOut = () => {
     signOut(auth).then(() => {
       localStorage.clear();
@@ -97,29 +99,34 @@ const App = () =>  {
           <div></div>
         ) : (
           <div className='sidebar'>
+            {/* Sidebar links */}
             <Link to="/home">Matches</Link>
             <Link to="/profile">Profile</Link>
             <Link to="/chat">Chat</Link>
             <Toggle id="themeToggleButton"></Toggle>
             <button id="logoutButton" className="button2" onClick={signUserOut}> Log Out </button>
-            {/* Render joined classes in the sidebar */}
-            {joinedClasses.map((className, index) => (
-              <Link key={index} to={`/class/${className}`}>{className}</Link>
-            ))}
+          
           </div>
         )}
       </nav>
-      
+
       <Routes>
-        <Route path="/" element={<Login setIsAuth={setIsAuth}/>} />
-        <Route path="/profile" element={<Profile isAuth={isAuth}/>} />
-        <Route path="/home" element={<Home isAuth={isAuth}/>} />
-        <Route path="/user/:id" element={<User isAuth={isAuth}/>} />
-         {/* Render the Chat component with onJoinClass prop */}
-         <Route path="/chat" element={<Chat isAuth={isAuth} onJoinClass={handleJoinClass} onLeaveClass={handleLeaveClass} />} />
+        <Route path="/" element={<Login setIsAuth={setIsAuth} />} />
+        <Route path="/profile" element={<Profile isAuth={isAuth} />} />
+        <Route path="/home" element={<Home isAuth={isAuth} />} />
+        <Route path="/user/:id" element={<User isAuth={isAuth} />} />
+        {/* Render the Chat component with onJoinClass prop */}
+        <Route path="/chat" element={<Chat isAuth={isAuth} onJoinClass={handleJoinClass} onLeaveClass={handleLeaveClass} />} />
         {/* Route to render class chat */}
         <Route path="/class/:className" element={<ClassChat onLeaveClass={handleLeaveClass} />} />
       </Routes>
+
+      {/* Chat button */}
+      {isAuth && (
+        <Link to="/chat" className="chat-button">
+          <FontAwesomeIcon icon={faMessage} alt="Chat Icon" style={{ color: '#FCEEEE' }} />
+        </Link>
+      )}
     </Router>
   );
 }

@@ -13,6 +13,7 @@ const Chat = ({ isAuth, onJoinClass }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
   const [darkMode, setDarkMode] = useState(false);
+  const [joinedClasses, setJoinedClasses] = useState([]);
 
   useEffect(() => {
     if (!isAuth) {
@@ -20,24 +21,28 @@ const Chat = ({ isAuth, onJoinClass }) => {
     }
   }, [isAuth, navigate]);
 
+  useEffect(() => {
+    // Fetch joined classes from local storage
+    const storedJoinedClasses = localStorage.getItem("joinedClasses");
+    if (storedJoinedClasses) {
+      setJoinedClasses(JSON.parse(storedJoinedClasses));
+    }
+  }, []);
+
   // State variable to store the list of chats for each class
   const [classChats, setClassChats] = useState({});
 
   // Function to join a class chat
   const joinClassChat = async (className) => {
     // Check if a chat already exists for the selected class
-    if (classChats[className]) {
+    if (joinedClasses.includes(className)) {
       console.log(`Joining existing chat for class: ${className}`);
     } else {
       // If no chat exists, create a new one
-      const newClassChats = { ...classChats };
-      newClassChats[className] = []; // Initialize an empty array for messages
-      setClassChats(newClassChats);
+      setJoinedClasses(prevJoinedClasses => [...prevJoinedClasses, className]);
       console.log(`Created new chat for class: ${className}`);
     }
   
-    // Set the selected class as the current chat
-    setSelectedClass(className);
     onJoinClass(className);
   
     try {
@@ -52,6 +57,7 @@ const Chat = ({ isAuth, onJoinClass }) => {
       console.error("Error adding participant:", error);
     }
   };
+
   
 
   // Function to send a message to the current chat
@@ -75,7 +81,7 @@ const Chat = ({ isAuth, onJoinClass }) => {
     <div className="page">
       <h1 className="title">Chat</h1>
       <div className="select-container">
-        <h2 className="inputHeaderBig">Select a Class:</h2>
+        <h2 className="inputHeaderBig">Join a Class:</h2>
         <Select
           value={{ value: selectedClass, label: selectedClass }}
           onChange={(option) => setSelectedClass(option.value)}
@@ -88,9 +94,14 @@ const Chat = ({ isAuth, onJoinClass }) => {
           <button onClick={() => joinClassChat(selectedClass)}>Join {selectedClass} Chat</button>
         </div>
       )}
+      <div className="my-group-chats">
+  <h2 className="inputHeaderBig">My Group Chats:</h2>
+  {joinedClasses.map((className, index) => (
+    <p key={index} onClick={() => navigate(`/class/${className}`)} style={{ cursor: 'pointer', color: 'var(--color1)', fontSize: '18px', marginBottom: '5px' }}>{className}</p>
+  ))}
+</div>
     </div>
   );
-  
 };
 
 export default Chat;
