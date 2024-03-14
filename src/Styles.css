@@ -791,6 +791,10 @@ body {
   color: #999; /* Placeholder text color */
 }
 
+.toggleThemeButton {
+  display: none;
+}
+
 @media screen and (max-width: 767px) {
   /* Styles for phones (max-width: 767px) */
 
@@ -830,9 +834,18 @@ body {
   /* Hide other elements */
   .page {
     margin-top: 60px; /* Adjust to avoid overlapping with bottom bar */
+    margin-left: 10px;
   }
 
   .toggleThemeButton {
     display: none;
   }
+
+  #logoutButton {
+    position: fixed;
+    bottom: 10px; /* Adjust as needed */
+    right: 10px; /* Adjust as needed */
+    z-index: 9999;
+  }
 }
+
