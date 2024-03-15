@@ -177,11 +177,17 @@ const Profile = ({ isAuth }) => {
 
       <div className="inputSection">
         <b className="inputHeader">About Me</b>
-        <div className="note">Note: Limit of 15 words.</div>
-        <textarea id="bioInput" className="inputLarge" value={bio} onChange={(e) => {
-          const words = e.target.value.split(' ').slice(0, 15).join(' ');
-          setBio(words);
-        }}></textarea>
+        <div className="note">Note: Limit of 75 characters.</div>
+        <textarea
+  id="bioInput"
+  className="inputLarge"
+  value={bio}
+  onChange={(e) => {
+    const inputText = e.target.value;
+    const truncatedText = inputText.slice(0, 75);
+    setBio(truncatedText);
+  }}
+></textarea>
       </div>
       
       <div className="inputSection">
