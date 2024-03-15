@@ -163,7 +163,7 @@ const Profile = ({ isAuth }) => {
         <b className="inputHeader">My Classes</b>
         <div className="note">Note: Select classes from the dropdown.</div>
         <ReactSelect id="majorDropdown" className="dropdown profile-select-control"
-          options={classOptions}
+          options={classOptions.map(option => ({ value: option.value, label: `${option.value} - ${option.label}` }))}
           isMulti
           value={selectedClasses}
           onChange={(selectedOptions) => {
