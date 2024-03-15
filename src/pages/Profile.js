@@ -53,6 +53,13 @@ const Profile = ({ isAuth }) => {
     }
   }, []);
 
+  useEffect(() => {
+    const storedMajor = localStorage.getItem('major');
+    if (storedMajor) {
+      setMajor(JSON.parse(storedMajor));
+    }
+  }, []);
+
   // Retrieve profile info when page loads
   useEffect(() => {
     getDocs(userColRef)
@@ -120,6 +127,10 @@ const Profile = ({ isAuth }) => {
     }, 1500);
   };
   
+  useEffect(() => {
+    localStorage.setItem('major', JSON.stringify(major));
+  }, [major]);
+
   
 
   // UI
@@ -136,7 +147,7 @@ const Profile = ({ isAuth }) => {
             <ReactSelect id="majorDropdown" className="dropdown"
               options={majorOptions}
               value={major} 
-              onChange={(s) => {setMajor(s)}}
+              onChange={(selectedOption) => setMajor(selectedOption)} 
               styles={localStorage.getItem("theme") === "theme-light" ? stylesLight : stylesDark}
             />
           ) : (
@@ -207,6 +218,11 @@ const Profile = ({ isAuth }) => {
         {profilePicURL && <img src={profilePicURL} alt="Profile" className="profile-pic" />}
         
         <br />
+        <div id="userContentMajor" className="userContent" style={{ wordBreak: 'break-word' }}>
+  <b>{major.label}</b>
+</div>
+
+<br />
 
         <b className="userProfileHeader">Classes</b>
         <br/>
@@ -214,7 +230,7 @@ const Profile = ({ isAuth }) => {
         <br/>
         <b className="userProfileHeader">About</b>
         <br/>
-        <div id="userProfileBio" className="userProfileContent">{bio}</div>
+        <div id="userProfileBio" className="userProfileContent" style={{ wordBreak: 'break-word' }}>{bio}</div>
         <br/>
         </div>
       </div>

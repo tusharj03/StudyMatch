@@ -92,7 +92,7 @@ const Home = ({ isAuth }) => {
       {usersList.map((user) => (
         <div className="matchesUserBox" key={user.id}>
           <Link to={`/user/${user.id}`} style={{ textDecoration: 'none' }}>
-            <h2 id="userDisplayName">{user.name}</h2> 
+            <h2 id="userDisplayName" style={{ wordBreak: 'break-word' }}>{user.name}</h2> 
             <img src={user.profilePicURL ? user.profilePicURL : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"} alt="Profile Picture" className="profile-pic" />
           </Link>
           <br/>
@@ -110,7 +110,7 @@ const Home = ({ isAuth }) => {
 
           <div id="userBio" className="userSection">
             <b className="userContentHeader">About</b>
-            <div id="userContentBio" className="userContent">{user.bio}</div>
+            <div id="userContentBio" className="userContent" style={{ wordBreak: 'break-word' }}>{user.bio}</div>
           </div>
           
         </div>
