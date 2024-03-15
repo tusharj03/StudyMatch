@@ -161,7 +161,6 @@ const Profile = ({ isAuth }) => {
       
       <div className="inputSection">
         <b className="inputHeader">My Classes</b>
-        <div className="note">Note: Select classes from the dropdown.</div>
         <ReactSelect id="majorDropdown" className="dropdown profile-select-control"
           options={classOptions.map(option => ({ value: option.value, label: `${option.value} - ${option.label}` }))}
           isMulti
@@ -178,8 +177,11 @@ const Profile = ({ isAuth }) => {
 
       <div className="inputSection">
         <b className="inputHeader">About Me</b>
-        <br/>
-        <textarea id="bioInput" className="inputLarge" value={bio} onChange={(e) => setBio(e.target.value)}></textarea>
+        <div className="note">Note: Limit of 15 words.</div>
+        <textarea id="bioInput" className="inputLarge" value={bio} onChange={(e) => {
+          const words = e.target.value.split(' ').slice(0, 15).join(' ');
+          setBio(words);
+        }}></textarea>
       </div>
       
       <div className="inputSection">
