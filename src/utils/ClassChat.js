@@ -15,6 +15,7 @@ const ClassChat = ({ onLeaveClass }) => {
   const [showParticipants, setShowParticipants] = useState(false);
 
   const messagesEndRef = useRef(null);
+  const [lastMessage, setLastMessage] = useState('');
 
   const handleLeaveClass = () => {
     onLeaveClass(className);
@@ -29,6 +30,12 @@ const ClassChat = ({ onLeaveClass }) => {
     const chatRef = collection(db, `classChats/${className}/messages`);
     const q = query(chatRef, orderBy('timestamp'));
   
+    const unsubscribeLastMessage = onSnapshot(q, (querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        setLastMessage(doc.data().message);
+      });
+    });
+
     const unsubscribeMessages = onSnapshot(q, (querySnapshot) => {
       const updatedMessages = [];
       querySnapshot.forEach((doc) => {
@@ -36,6 +43,7 @@ const ClassChat = ({ onLeaveClass }) => {
       });
       setMessages(updatedMessages);
       scrollToBottom();
+
     });
   
     // Fetch participants from Firestore
@@ -51,6 +59,7 @@ const ClassChat = ({ onLeaveClass }) => {
     return () => {
       unsubscribeMessages();
       unsubscribeParticipants();
+      unsubscribeLastMessage();
     };
   }, [className]);
   

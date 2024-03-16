@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import classOptions from '../utils/class-options'; // Importing class options
 import ClassChat from '../utils/ClassChat'; // Import the ClassChat component
 import { db, auth, serverTimestamp, storage } from "../firebase-config";
-import { addDoc, collection, ref, uploadBytes } from "firebase/firestore";
+import { addDoc, collection, query, orderBy, limit, getDocs } from "firebase/firestore";
 import '../Styles.css';
 import { stylesLight, stylesDark } from '../utils/dropdown-settings';
 import Select from 'react-select';
@@ -18,16 +18,48 @@ const Chat = ({ isAuth, onJoinClass }) => {
   useEffect(() => {
     if (!isAuth) {
       navigate('/');
+    } else {
+      // Fetch joined classes from local storage
+      const storedJoinedClasses = localStorage.getItem("joinedClasses");
+      if (storedJoinedClasses) {
+        const parsedJoinedClasses = JSON.parse(storedJoinedClasses);
+        // Check if the stored joined classes are different from the current state
+        if (JSON.stringify(parsedJoinedClasses) !== JSON.stringify(joinedClasses)) {
+          setJoinedClasses(parsedJoinedClasses);
+        }
+      }
     }
   }, [isAuth, navigate]);
-
+  
   useEffect(() => {
-    // Fetch joined classes from local storage
-    const storedJoinedClasses = localStorage.getItem("joinedClasses");
-    if (storedJoinedClasses) {
-      setJoinedClasses(JSON.parse(storedJoinedClasses));
+    // Define and call the function to fetch last messages
+    const fetchLastMessages = async () => {
+      const lastMessages = {};
+      for (const className of joinedClasses) {
+        const chatRef = collection(db, `classChats/${className}/messages`);
+        const q = query(chatRef, orderBy('timestamp', 'desc'), limit(1));
+  
+        try {
+          const querySnapshot = await getDocs(q);
+          querySnapshot.forEach((doc) => {
+            console.log("Last message for", className, ":", doc.data().message);
+            lastMessages[className] = {
+              message: doc.data().message,
+              displayName: doc.data().displayName // Assuming displayName is stored in the document
+            };
+          });
+        } catch (error) {
+          console.error("Error fetching last message:", error);
+        }
+      }
+      console.log("Last messages:", lastMessages);
+      setClassChats(lastMessages);
+    };
+  
+    if (joinedClasses.length > 0) {
+      fetchLastMessages();
     }
-  }, []);
+  }, [joinedClasses]);
 
   // State variable to store the list of chats for each class
   const [classChats, setClassChats] = useState({});
@@ -97,7 +129,21 @@ const Chat = ({ isAuth, onJoinClass }) => {
       <div className="my-group-chats">
   <h2 className="inputHeaderBig">My Group Chats:</h2>
   {joinedClasses.map((className, index) => (
-    <p key={index} onClick={() => navigate(`/class/${className}`)} style={{ cursor: 'pointer', color: 'var(--color1)', fontSize: '18px', marginBottom: '5px' }}>{className}</p>
+    <div key={index} onClick={() => navigate(`/class/${className}`)} className="chat-preview">
+      <div className="chat-preview-info">
+        <p className="chat-preview-title">{className}</p>
+        <p className="chat-preview-message">
+          {classChats[className] ? (
+            <>
+              <span>{classChats[className].displayName}: </span>
+              <span>{classChats[className].message}</span>
+            </>
+          ) : (
+            "No messages"
+          )}
+        </p>
+      </div>
+    </div>
   ))}
 </div>
     </div>
