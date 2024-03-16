@@ -177,14 +177,14 @@ const Profile = ({ isAuth }) => {
 
       <div className="inputSection">
         <b className="inputHeader">About Me</b>
-        <div className="note">Note: Limit of 75 characters.</div>
+        <div className="note">Note: Limit of 100 characters.</div>
         <textarea
   id="bioInput"
   className="inputLarge"
   value={bio}
   onChange={(e) => {
     const inputText = e.target.value;
-    const truncatedText = inputText.slice(0, 75);
+    const truncatedText = inputText.slice(0, 100);
     setBio(truncatedText);
   }}
 ></textarea>
@@ -222,8 +222,12 @@ const Profile = ({ isAuth }) => {
       
       <div id="matchUser">
       <div className="matchesUserBox">
-        <h2 id='userDisplayName'>My Profile</h2>
-        {profilePicURL && <img src={profilePicURL} alt="Profile" className="profile-pic" />}
+      <h2 id='userDisplayName'>My Profile</h2>
+  {profilePicURL ? (
+    <img src={profilePicURL} alt="Profile" className="profile-pic" />
+  ) : (
+    <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="Default Profile" className="profile-pic" />
+  )}
         
         <br />
         <div id="userContentMajor" className="userContent" style={{ wordBreak: 'break-word' }}>
@@ -234,7 +238,7 @@ const Profile = ({ isAuth }) => {
 
         <b className="userProfileHeader">Classes</b>
         <br/>
-        <div className="userProfileClasses">{selectedClasses.map((classItem) => classItem.label).join(", ")}</div>
+        <div className="userProfileClasses" style={{ wordBreak: 'break-word' }}>{selectedClasses.map((classItem) => classItem.label).join(", ")}</div>
         <br/>
         <b className="userProfileHeader">About</b>
         <br/>

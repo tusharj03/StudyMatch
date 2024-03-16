@@ -294,7 +294,7 @@ body {
   border-radius: 20px;
   box-shadow: 0 4px 8px 0 var(--colorShadow);
   width: 12.5rem;
-  height: 22rem;
+  height: 24rem;
   padding: 0.5rem 2rem;
   margin: 1.1rem;
   float: left;
@@ -346,7 +346,6 @@ body {
   color: var(--color3);
   font-size: 1.2rem;
   height: 2.rem;
-  overflow: hidden;
   text-align: center; /* Center the text */
   margin: auto;
   margin-top: 1rem; /* Center horizontally */

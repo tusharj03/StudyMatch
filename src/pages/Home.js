@@ -104,7 +104,7 @@ const Home = ({ isAuth }) => {
 
           <div id="userClasses" className="userSection">
             <b className="userContentHeader">Classes</b>
-            <div id="userContentClasses" className="userContent">{user.classes.join(", ")}</div>
+            <div id="userContentClasses" className="userContent" style={{ wordBreak: 'break-word' }}>{user.classes.join(", ")}</div>
           </div>
           <br/>
 
