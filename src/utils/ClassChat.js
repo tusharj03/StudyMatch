@@ -2,8 +2,8 @@ import React, { useEffect, useState, useRef } from 'react';
 import { auth, db, serverTimestamp, collection, addDoc, query, orderBy, onSnapshot, storage } from '../firebase-config';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import '../Styles.css';
-import { useParams, useNavigate } from 'react-router-dom';
-import { getDocs, deleteDoc } from 'firebase/firestore';
+import { useParams, useNavigate, Link } from 'react-router-dom';
+import { getDocs, deleteDoc, doc, getDoc } from 'firebase/firestore';
 
 const ClassChat = ({ onLeaveClass }) => {
   const navigate = useNavigate();
@@ -36,11 +36,14 @@ const ClassChat = ({ onLeaveClass }) => {
       });
     });
 
-    const unsubscribeMessages = onSnapshot(q, (querySnapshot) => {
+    const unsubscribeMessages = onSnapshot(q, async (querySnapshot) => {
       const updatedMessages = [];
-      querySnapshot.forEach((doc) => {
-        updatedMessages.push(doc.data());
-      });
+      for (const doc of querySnapshot.docs) {
+        const messageData = doc.data();
+        // Fetch profile picture URL for each message
+        const profilePicURL = await fetchProfilePic(messageData.userId);
+        updatedMessages.push({ ...messageData, profilePicURL }); // Include profilePicURL in the message object
+      }
       setMessages(updatedMessages);
       scrollToBottom();
 
@@ -63,18 +66,35 @@ const ClassChat = ({ onLeaveClass }) => {
     };
   }, [className]);
   
+  const fetchProfilePic = async (userId) => {
+    try {
+      const docSnapshot = await getDoc(doc(db, 'users', userId)); // Get the document for the specific user
+      if (docSnapshot.exists()) {
+        return docSnapshot.data().profilePicURL; // Return the profilePicURL if the user exists
+      } else {
+        console.log("User document does not exist");
+        return null;
+      }
+    } catch (error) {
+      console.error("Error fetching profile picture:", error);
+      return null;
+    }
+  };
 
   const handleSendMessage = async () => {
     if (newMessage.trim() !== '' || selectedFile) {
       try {
+        const timestamp = serverTimestamp();
+        const profilePicURL = await fetchProfilePic(auth.currentUser.uid);
         if (selectedFile) {
-          await handleFileUpload();
+          await handleFileUpload(timestamp);
         } else {
           // Add the new text message to Firestore
           await addDoc(collection(db, `classChats/${className}/messages`), {
             message: newMessage,
             displayName: auth.currentUser.displayName,
-            timestamp: serverTimestamp()
+            userId: auth.currentUser.uid,
+            timestamp: timestamp,
           });
         }
         setNewMessage('');
@@ -104,7 +124,7 @@ const ClassChat = ({ onLeaveClass }) => {
     }
   };
 
-  const handleFileUpload = async () => {
+  const handleFileUpload = async (timestamp) => {
     if (selectedFile) {
       try {
         const fileName = selectedFile.name;
@@ -142,7 +162,7 @@ const ClassChat = ({ onLeaveClass }) => {
         const messageObject = {
           message: messageContent,
           displayName: auth.currentUser.displayName,
-          timestamp: serverTimestamp(),
+          timestamp: timestamp,
           fileUrl: fileUrl,
           fileName: fileName
         };
@@ -182,9 +202,29 @@ const ClassChat = ({ onLeaveClass }) => {
           <div className="class-chat-messages">
             {messages.map((message, index) => (
               <div key={index} className="class-chat-message">
-                <strong>{message.displayName}: </strong>
-                <div dangerouslySetInnerHTML={{ __html: message.message }}></div>
+              <div className="message-info">
+              <div className="profile-pic-container">
+                    {message.profilePicURL ? (
+                      <img src={message.profilePicURL} alt="Profile" className="profile-pic-small" />
+                    ) : (
+                      <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="Default Profile" className="profile-pic-small" />
+                    )}
+                  </div>
+                <strong>
+                  {/* Wrap username with Link */}
+                  <Link to={`/user/${message.userId}`} style={{ textDecoration: 'none' }}>
+                    <p id="userDisplayNameChat">{message.displayName}:</p>
+                  </Link>
+                </strong>
+                {message.timestamp && (
+        <p className="message-timestamp">
+          {message.timestamp.toDate().toLocaleString([], { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' })}
+        </p>
+      )}
               </div>
+              <div dangerouslySetInnerHTML={{ __html: message.message }}></div>
+            </div>
+            
             ))}
             <div ref={messagesEndRef} />
           </div>
@@ -214,9 +254,13 @@ const ClassChat = ({ onLeaveClass }) => {
         <div className="participants-section">
           <h3>Participants:</h3>
           <ul className="participants-list">
-            {participants.map((participant, index) => (
-              <li key={index}>{participant.displayName}</li>
-            ))}
+          {participants.map((participant, index) => (
+  <li key={index}>
+    <Link to={`/user/${participant.userId}`} style={{ textDecoration: 'none' }}>
+    <p id="userDisplayNameChat">{participant.displayName}</p>
+    </Link>
+  </li>
+))}
           </ul>
         </div>
       )}

@@ -356,6 +356,17 @@ body {
   text-decoration: underline;
 }
 
+#userDisplayNameChat {
+  color: black;
+  font-size: 1rem;
+  height: 2.rem; /* Center the text */
+  margin: auto; /* Center horizontally */
+  display: block; 
+}
+#userDisplayNameChat:hover {
+  text-decoration: underline;
+}
+
 #userContentMajor {
   color: var(--color1);
   text-align: center; /* Center the text */
@@ -526,6 +537,26 @@ body {
   left: -0.18rem;
 }
 
+.message-info {
+  display: flex;
+  align-items: center;
+}
+
+.message-timestamp {
+  margin-left: 10px; /* Adjust as needed */
+  font-size: 0.8rem; /* Adjust font size as needed */
+  margin-top: 0px;
+  margin-bottom: 0px;
+  color: #888; /* Adjust color as needed */
+}
+
+.profile-pic-small {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 7px;
+}
 
 @media screen and (min-width: 1100px){
 
