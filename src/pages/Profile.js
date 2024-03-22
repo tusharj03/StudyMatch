@@ -10,6 +10,7 @@ import { majorOptions } from '../utils/major-options'
 import '../Styles.css';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { classOptions } from '../utils/class-dropdown';
+import Footer from '../utils/Footer';
 
 const Profile = ({ isAuth }) => {
   
@@ -252,7 +253,6 @@ const Profile = ({ isAuth }) => {
       <div id="saveMessage" className="message">Saved!</div>
       <div id="invalidEmailMessage" className="message">Email address is not valid.</div>
     </div>
-
   )
 }
 

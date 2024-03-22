@@ -29,7 +29,7 @@ const Login = ({ isAuth, setIsAuth }) => {
     <div className="loginPage">
       <div>
         <div id="loginTopBar"></div>
-        <h1 id="loginTitle">ClassClique</h1>
+        <h1 id="loginTitle">StudyMatch</h1>
         <h2 className="center" id="tagline">Find your study match!</h2>
         <figure>
           <div>

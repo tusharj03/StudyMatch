@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { getDocs, collection } from 'firebase/firestore';
 import '../Styles.css';
 import { classOptions } from '../utils/class-options';
+import Footer from '../utils/Footer';
 
 const Home = ({ isAuth }) => {
   let navigate = useNavigate();

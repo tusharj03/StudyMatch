@@ -7,6 +7,7 @@ import { addDoc, collection, query, orderBy, limit, getDocs } from "firebase/fir
 import '../Styles.css';
 import { stylesLight, stylesDark } from '../utils/dropdown-settings';
 import Select from 'react-select';
+import Footer from '../utils/Footer';
 
 const Chat = ({ isAuth, onJoinClass }) => {
   const [selectedClass, setSelectedClass] = useState('');
@@ -146,6 +147,7 @@ const Chat = ({ isAuth, onJoinClass }) => {
     </div>
   ))}
 </div>
+<Footer />
     </div>
   );
 };
