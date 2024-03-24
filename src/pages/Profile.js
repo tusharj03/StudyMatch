@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { storage, db, auth } from "../firebase-config";
 import { useNavigate } from "react-router-dom";
 import { doc, setDoc, collection, getDocs } from "firebase/firestore";
@@ -10,35 +10,38 @@ import { majorOptions } from '../utils/major-options'
 import '../Styles.css';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { classOptions } from '../utils/class-dropdown';
-import Footer from '../utils/Footer';
+import AvatarEditor from 'react-avatar-editor';
 
 const Profile = ({ isAuth }) => {
   
   const [profilePicURL, setProfilePicURL] = useState(""); // State to hold profile picture URL
   const navigate = useNavigate();
   const [selectedClasses, setSelectedClasses] = useState([]); 
-  const [bio, setBio] = useState(""); // State to hold bio content
-
-  
+  const [bio, setBio] = useState(""); // State to hold bio contents
+  const [editedImage, setEditedImage] = useState(null);
+  const editorRef = useRef();
 
   // Function to handle profile picture change
-  const handleProfilePicChange = async (event) => {
-    const file = event.target.files[0];
-    const storageRef = ref(storage, `profile_pictures/${auth.currentUser.uid}/${file.name}`);
-    
-    try {
-      await uploadBytes(storageRef, file);
-      const downloadURL = await getDownloadURL(storageRef);
+  const handleProfilePicChange = async () => {
+    const canvas = editorRef.current.getImageScaledToCanvas(); // Assuming you have a ref for AvatarEditor
+    canvas.toBlob(async (blob) => {
+      const storageRef = ref(storage, `profile_pictures/${auth.currentUser.uid}/${Date.now()}.png`);
   
-      if (downloadURL) {
-        setProfilePicURL(downloadURL); // Set the downloaded URL to state
-      } else {
-        console.error("Failed to retrieve profile picture download URL.");
+      try {
+        await uploadBytes(storageRef, blob);
+        const downloadURL = await getDownloadURL(storageRef);
+  
+        if (downloadURL) {
+          setProfilePicURL(downloadURL); // Set the downloaded URL to state
+        } else {
+          console.error("Failed to retrieve profile picture download URL.");
+        }
+      } catch (error) {
+        console.error("Error uploading profile picture:", error);
       }
-    } catch (error) {
-      console.error("Error uploading profile picture:", error);
-    }
-  }
+    });
+  };
+  
   
   let nagivate = useNavigate();
   const userColRef = collection(db, "users");
@@ -46,6 +49,17 @@ const Profile = ({ isAuth }) => {
   const [editMajor, setEditMajor] = useState(false);
   const [classes, setClasses] = useState([]);
 
+  const handleImageSelection = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+  
+    reader.onload = () => {
+      setEditedImage(reader.result);
+    };
+  
+    reader.readAsDataURL(file);
+  };
+  
 
   // If user not authenticated, redirect to login page
   useEffect(() => {
@@ -85,15 +99,15 @@ const Profile = ({ isAuth }) => {
 
   // Update profile
   const updateProfile = async () => {
-    // Prepare major and class data to pass into database
+    // Prepare major and class data to pass into the database
     let majorToUpdate = "";
-    
+  
     if (editMajor) {
       major.value == null ? (majorToUpdate = []) : (majorToUpdate = major.value);
     } else {
       majorToUpdate = document.getElementById("majorInput").textContent;
     }
-    
+  
     // Check that email is a valid format
     const validateEmail = (email) => {
       const re = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
@@ -105,6 +119,9 @@ const Profile = ({ isAuth }) => {
       document.getElementById("invalidEmailMessage").style.display = "block";
       return;
     }
+  
+    // Handle profile picture change
+    await handleProfilePicChange();
   
     // Add/update to Cloud Firestore
     await setDoc(doc(db, "users", auth.currentUser.uid), {
@@ -122,7 +139,7 @@ const Profile = ({ isAuth }) => {
     // Display "Saved!" Message
     document.getElementById("saveMessage").style.display = "block";
     document.getElementById("invalidEmailMessage").style.display = "none";
-
+  
     setTimeout(() => {
       document.getElementById("saveMessage").style.display = "none";
     }, 1500);
@@ -178,14 +195,14 @@ const Profile = ({ isAuth }) => {
 
       <div className="inputSection">
         <b className="inputHeader">About Me</b>
-        <div className="note">Note: Limit of 100 characters.</div>
+        <div className="note">Note: Limit of 75 characters.</div>
         <textarea
   id="bioInput"
   className="inputLarge"
   value={bio}
   onChange={(e) => {
     const inputText = e.target.value;
-    const truncatedText = inputText.slice(0, 100);
+    const truncatedText = inputText.slice(0, 75);
     setBio(truncatedText);
   }}
 ></textarea>
@@ -197,8 +214,23 @@ const Profile = ({ isAuth }) => {
   <label htmlFor="profilePicInput" className="profilePicButton">
     Choose Profile Picture
   </label>
-  <input id="profilePicInput" type="file" accept="image/*" onChange={handleProfilePicChange} style={{ display: 'none' }} />
+  <input id="profilePicInput" type="file" accept="image/*" onChange={handleImageSelection} style={{ display: 'none' }} />
+  
+  {editedImage && (
+    <AvatarEditor
+      image={editedImage}
+      width={250}
+      height={250}
+      border={50}
+      color={[255, 255, 255, 0.6]} // RGBA
+      scale={1}
+      rotate={0}
+      borderRadius={125}
+      ref={editorRef} // Remember to create a ref for AvatarEditor
+    />
+  )}
 </div>
+
 
 
       <div id="contact">
@@ -223,12 +255,8 @@ const Profile = ({ isAuth }) => {
       
       <div id="matchUser">
       <div className="matchesUserBox">
-      <h2 id='userDisplayName'>My Profile</h2>
-  {profilePicURL ? (
-    <img src={profilePicURL} alt="Profile" className="profile-pic" />
-  ) : (
-    <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="Default Profile" className="profile-pic" />
-  )}
+        <h2 id='userDisplayName'>My Profile</h2>
+        {profilePicURL && <img src={profilePicURL} alt="Profile" className="profile-pic" />}
         
         <br />
         <div id="userContentMajor" className="userContent" style={{ wordBreak: 'break-word' }}>
@@ -239,7 +267,7 @@ const Profile = ({ isAuth }) => {
 
         <b className="userProfileHeader">Classes</b>
         <br/>
-        <div className="userProfileClasses" style={{ wordBreak: 'break-word' }}>{selectedClasses.map((classItem) => classItem.label).join(", ")}</div>
+        <div className="userProfileClasses">{selectedClasses.map((classItem) => classItem.label).join(", ")}</div>
         <br/>
         <b className="userProfileHeader">About</b>
         <br/>
@@ -253,6 +281,7 @@ const Profile = ({ isAuth }) => {
       <div id="saveMessage" className="message">Saved!</div>
       <div id="invalidEmailMessage" className="message">Email address is not valid.</div>
     </div>
+
   )
 }
 
