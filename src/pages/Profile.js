@@ -81,6 +81,14 @@ const Profile = ({ isAuth }) => {
     .then((snapshot) => {
       snapshot.docs.forEach((doc) => {
         if (doc.id == auth.currentUser.uid) {
+          console.log("Profile Data:", doc.data());
+          const profilePicURLFromData = doc.data().profilePicURL; // Get profile picture URL from data
+          if (profilePicURLFromData && profilePicURLFromData !== profilePicURL) {
+            // If there's a new profile picture URL and it's different from the current one, update the state
+            setProfilePicURL(profilePicURLFromData);
+            localStorage.setItem('profilePicURL', profilePicURLFromData);
+          }
+          // Set other profile data
           document.getElementById("majorInput").textContent = doc.data().major;
           setSelectedClasses(doc.data().classes.map(classItem => ({ value: classItem, label: classItem })));
           setBio(doc.data().bio);
@@ -88,15 +96,14 @@ const Profile = ({ isAuth }) => {
           document.getElementById("instagramInput").value = doc.data().instagram;
           document.getElementById("emailInput").value = doc.data().email;
           document.getElementById("snapchatInput").value = doc.data().snapchat;
-          setProfilePicURL(doc.data().profilePicURL); // Set profile picture URL
         }
       });
     })
     .catch(err => {
       console.log(err);
     });
-  }, []);
-
+  }, [profilePicURL]);
+  
   // Update profile
   const updateProfile = async () => {
     // Prepare major and class data to pass into the database
@@ -123,6 +130,9 @@ const Profile = ({ isAuth }) => {
     // Handle profile picture change
     await handleProfilePicChange();
   
+    // Wait for profilePicURL state to update
+    await new Promise(resolve => setTimeout(resolve, 2000)); // Adjust this timeout as needed
+  
     // Add/update to Cloud Firestore
     await setDoc(doc(db, "users", auth.currentUser.uid), {
       major: majorToUpdate,
@@ -143,7 +153,7 @@ const Profile = ({ isAuth }) => {
     setTimeout(() => {
       document.getElementById("saveMessage").style.display = "none";
     }, 1500);
-  };
+};
   
   useEffect(() => {
     localStorage.setItem('major', JSON.stringify(major));

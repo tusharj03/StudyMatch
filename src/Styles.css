@@ -628,13 +628,14 @@ body {
 /* Container styles */
 .class-chat-container {
   margin-left: 12rem;
-  margin-top: 3rem;
+  margin-top: 0rem;
   margin-right: 3rem;
   padding: 20px;
-  border: 1px solid #ccc;
+
   border-radius: 5px;
-  background-color: #f9f9f9;
+
   height: 80vh;
+  border-radius: 10px;
 
 }
 
@@ -698,7 +699,7 @@ body {
   padding: 5px 10px;
   cursor: pointer;
   position: absolute;
-  top: 62px;
+  top: 75px;
   right: 150px;
 }
 
@@ -725,9 +726,6 @@ body {
 /* Message styles */
 .class-chat-message {
   padding: 10px;
-  border-radius: 5px;
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   margin-bottom: 10px;
 }
 
@@ -807,7 +805,7 @@ body {
 
 .leave-class-button {
   position: absolute;
-  top: 62px;
+  top: 75px;
   right: 60px;
   background-color: #007bff;
   color: #fff;
@@ -950,7 +948,7 @@ body {
     border-radius: 5px;
     background-color: #f9f9f9;
     height: 80vh;
-  
+    border-radius: 10px;
   }
   
   .class-chat-main {
