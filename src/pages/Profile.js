@@ -33,6 +33,13 @@ const Profile = ({ isAuth }) => {
   
         if (downloadURL) {
           setProfilePicURL(downloadURL); // Set the downloaded URL to state
+          
+          // Update the profile picture URL in Firebase
+          await setDoc(doc(db, "users", auth.currentUser.uid), {
+            profilePicURL: downloadURL // Update the profile picture URL in Firebase
+            // You can include other fields here if needed
+          }, { merge: true }); // Use merge option to merge with existing data
+  
         } else {
           console.error("Failed to retrieve profile picture download URL.");
         }
@@ -40,6 +47,12 @@ const Profile = ({ isAuth }) => {
         console.error("Error uploading profile picture:", error);
       }
     });
+  };
+  
+
+  const handleSaveProfilePic = async () => {
+    await handleProfilePicChange();
+    // Display success message or handle any other UI updates
   };
   
   
@@ -77,31 +90,30 @@ const Profile = ({ isAuth }) => {
 
   // Retrieve profile info when page loads
   useEffect(() => {
-    getDocs(userColRef)
-    .then((snapshot) => {
-      snapshot.docs.forEach((doc) => {
-        if (doc.id == auth.currentUser.uid) {
-          console.log("Profile Data:", doc.data());
-          const profilePicURLFromData = doc.data().profilePicURL; // Get profile picture URL from data
-          if (profilePicURLFromData && profilePicURLFromData !== profilePicURL) {
-            // If there's a new profile picture URL and it's different from the current one, update the state
-            setProfilePicURL(profilePicURLFromData);
-            localStorage.setItem('profilePicURL', profilePicURLFromData);
+    getDocs(collection(db, "users"))
+      .then((snapshot) => {
+        snapshot.docs.forEach((doc) => {
+          if (doc.id === auth.currentUser.uid) {
+            console.log("Profile Data:", doc.data());
+            const profilePicURLFromData = doc.data().profilePicURL; // Get profile picture URL from data
+            if (profilePicURLFromData && profilePicURLFromData !== profilePicURL) {
+              // If there's a new profile picture URL and it's different from the current one, update the state
+              setProfilePicURL(profilePicURLFromData);
+            }
+            // Set other profile data
+            document.getElementById("majorInput").textContent = doc.data().major;
+            setSelectedClasses(doc.data().classes.map(classItem => ({ value: classItem, label: classItem })));
+            setBio(doc.data().bio);
+            document.getElementById("bioInput").value = doc.data().bio;
+            document.getElementById("instagramInput").value = doc.data().instagram;
+            document.getElementById("emailInput").value = doc.data().email;
+            document.getElementById("snapchatInput").value = doc.data().snapchat;
           }
-          // Set other profile data
-          document.getElementById("majorInput").textContent = doc.data().major;
-          setSelectedClasses(doc.data().classes.map(classItem => ({ value: classItem, label: classItem })));
-          setBio(doc.data().bio);
-          document.getElementById("bioInput").value = doc.data().bio;
-          document.getElementById("instagramInput").value = doc.data().instagram;
-          document.getElementById("emailInput").value = doc.data().email;
-          document.getElementById("snapchatInput").value = doc.data().snapchat;
-        }
+        });
+      })
+      .catch(err => {
+        console.log(err);
       });
-    })
-    .catch(err => {
-      console.log(err);
-    });
   }, [profilePicURL]);
   
   // Update profile
@@ -126,12 +138,6 @@ const Profile = ({ isAuth }) => {
       document.getElementById("invalidEmailMessage").style.display = "block";
       return;
     }
-  
-    // Handle profile picture change
-    await handleProfilePicChange();
-  
-    // Wait for profilePicURL state to update
-    await new Promise(resolve => setTimeout(resolve, 2000)); // Adjust this timeout as needed
   
     // Add/update to Cloud Firestore
     await setDoc(doc(db, "users", auth.currentUser.uid), {
@@ -219,27 +225,29 @@ const Profile = ({ isAuth }) => {
       </div>
       
       <div className="inputSection">
-  <b className="inputHeader">Profile Picture</b>
-  <br />
-  <label htmlFor="profilePicInput" className="profilePicButton">
-    Choose Profile Picture
-  </label>
-  <input id="profilePicInput" type="file" accept="image/*" onChange={handleImageSelection} style={{ display: 'none' }} />
-  
-  {editedImage && (
-    <AvatarEditor
-      image={editedImage}
-      width={250}
-      height={250}
-      border={50}
-      color={[255, 255, 255, 0.6]} // RGBA
-      scale={1}
-      rotate={0}
-      borderRadius={125}
-      ref={editorRef} // Remember to create a ref for AvatarEditor
-    />
-  )}
-</div>
+        <b className="inputHeader">Profile Picture</b>
+        <br />
+        <label htmlFor="profilePicInput" className="profilePicButton">
+          Choose Profile Picture
+        </label>
+        <input id="profilePicInput" type="file" accept="image/*" onChange={handleImageSelection} style={{ display: 'none' }} />
+
+        {editedImage && (
+          <AvatarEditor
+            image={editedImage}
+            width={250}
+            height={250}
+            border={50}
+            color={[255, 255, 255, 0.6]} // RGBA
+            scale={1}
+            rotate={0}
+            borderRadius={125}
+            ref={editorRef} // Remember to create a ref for AvatarEditor
+          />
+        )}
+
+        <button className="profilePicButton2" onClick={handleSaveProfilePic}>Save Profile Picture</button>
+      </div>
 
 
 

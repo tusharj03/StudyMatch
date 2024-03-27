@@ -194,7 +194,7 @@ const ClassChat = ({ onLeaveClass }) => {
     <div style={{ backgroundImage: 'linear-gradient( 	#accbff, white)', marginTop: '0rem' }}>
     <div className={`class-chat-container ${showParticipants ? 'show-participants' : ''}`}>
       <div className="class-chat-main">
-        <h2 style={{ borderRadius: '5px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>Class Chat: {className}</h2>
+        <h2>Class Chat: {className}</h2>
         <button className="leave-class-button" onClick={handleLeaveClassClick}>Leave Class</button>
         <button className="participants-toggle-button" onClick={toggleParticipantsList}>
           {showParticipants ? "Hide Participants" : "View Participants"}
