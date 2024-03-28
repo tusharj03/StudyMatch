@@ -1,5 +1,5 @@
 import './Styles.css';
-import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Link, Navigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { db, auth } from "./firebase-config"
 import { signOut } from 'firebase/auth';
@@ -112,7 +112,17 @@ const App = () =>  {
       </nav>
 
       <Routes>
-        <Route path="/" element={<Login setIsAuth={setIsAuth} />} />
+      <Route
+  path="/"
+  element={
+    isAuth ? (
+      <Navigate to="/home" replace />
+    ) : (
+      <Login setIsAuth={setIsAuth} />
+    )
+  }
+/>
+
         <Route path="/profile" element={<Profile isAuth={isAuth} />} />
         <Route path="/home" element={<Home isAuth={isAuth} />} />
         <Route path="/user/:id" element={<User isAuth={isAuth} />} />
