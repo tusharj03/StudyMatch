@@ -4,6 +4,8 @@ import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import '../Styles.css';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { getDocs, deleteDoc, doc, getDoc } from 'firebase/firestore';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPaperPlane, faUsers, faFileUpload, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 
 const ClassChat = ({ onLeaveClass }) => {
   const navigate = useNavigate();
@@ -191,14 +193,18 @@ const ClassChat = ({ onLeaveClass }) => {
   };
 
   return (
-    <div style={{ backgroundImage: 'linear-gradient( 	#accbff, white)', marginTop: '0rem' }}>
+    <div className="background-container">
     <div className={`class-chat-container ${showParticipants ? 'show-participants' : ''}`}>
       <div className="class-chat-main">
-        <h2>Class Chat: {className}</h2>
-        <button className="leave-class-button" onClick={handleLeaveClassClick}>Leave Class</button>
-        <button className="participants-toggle-button" onClick={toggleParticipantsList}>
-          {showParticipants ? "Hide Participants" : "View Participants"}
-        </button>
+      <h2 style={{ fontFamily: '' /* other styles */ }}>Class Chat: {className}</h2>
+      <hr style={{ border: '1px solid #ccc', margin: '20px 0' }} />
+      <button className="leave-class-button" onClick={handleLeaveClassClick}>
+            <FontAwesomeIcon icon={faSignOutAlt} /> Leave
+          </button>
+          <button className="participants-toggle-button" onClick={toggleParticipantsList}>
+            <FontAwesomeIcon icon={faUsers} /> &nbsp; {showParticipants ? "  Hide Participants" : "  View Participants"}
+          </button>
+        
         <div className="messages-section">
           <div className="class-chat-messages">
             {messages.map((message, index) => (
@@ -223,7 +229,7 @@ const ClassChat = ({ onLeaveClass }) => {
         </p>
       )}
               </div>
-              <div dangerouslySetInnerHTML={{ __html: message.message }}></div>
+              <div dangerouslySetInnerHTML={{ __html: message.message }} style={{ marginLeft: '33px' }}></div>
             </div>
             
             ))}
@@ -240,14 +246,14 @@ const ClassChat = ({ onLeaveClass }) => {
             
           </div>
           <div className="file-upload-section">
-            <label htmlFor="file-upload" className="upload-chat-button">Upload File</label>
+            <label htmlFor="file-upload" className="upload-chat-button"> <FontAwesomeIcon icon={faFileUpload} /> &nbsp; Upload</label>
             <input
               id="file-upload"
               type="file"
               style={{ display: 'none' }}
               onChange={handleFileInputChange}
             />
-            <button className="class-chat-button" onClick={handleSendMessage}>Send</button>
+            <button className="class-chat-button" onClick={handleSendMessage}> <FontAwesomeIcon icon={faPaperPlane} /> &nbsp; Send</button>
           </div>
         </div>
       </div>

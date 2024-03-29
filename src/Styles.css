@@ -142,7 +142,7 @@ body {
 /* PAGE */
 .page{
   position: absolute;
-  margin-left: 12rem;
+  margin-left: 12rem; /* Adjust this value to match the width of your sidebar */
 }
 
 .classChat {
@@ -256,6 +256,7 @@ body {
   box-shadow: 0rem 1rem 1rem 0rem var(--colorShadow);
 
 }
+
 .noticeBox h2 {
   position: absolute;
   text-align: center;
@@ -580,6 +581,7 @@ body {
   border-radius: 50%;
   object-fit: cover;
   margin-right: 7px;
+  top: 1000px;
 }
 
 .footer {
@@ -651,7 +653,7 @@ body {
 
 /* Container styles */
 .class-chat-container {
-  margin-left: 12rem;
+  margin-left: 13rem;
   margin-top: 0rem;
   margin-right: 3rem;
   padding: 20px;
@@ -701,7 +703,7 @@ body {
   padding: 10px;
   position: absolute;
   top: 120px; /* Adjust based on button height */
-  right: 0;
+  right: 50px;
   width: 200px;
 }
 
@@ -723,7 +725,7 @@ body {
   cursor: pointer;
   position: absolute;
   top: 75px;
-  right: 190px;
+  right: 180px;
   padding: 10px 20px;
   border-radius: 20px;
 }
@@ -805,12 +807,28 @@ body {
   flex-direction: column;
   height: 100vh;
   background-color: #fff;
+    margin-top: 3rem; /* Increase the margin-top value to move the container down */
+    margin-right: 3rem;
+    padding: 40px 20px; /* Increase the padding as needed to move the content down */
+    border-radius: 5px;
+    height: 80vh;
+    border-radius: 10px;
+}
+
+.background-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(#accbff, #ebf0fa);
+  margin-top: 0rem;
+  z-index: -1; /* Ensure it stays behind other content */
 }
 
 /* Class chat main section */
 .class-chat-main {
   flex: 1;
-  display: flex;
   flex-direction: column;
 }
 
@@ -888,7 +906,6 @@ body {
   border: none;
   background-color: #007bff;
   color: white;
-  font-size: 16px;
   cursor: pointer;
   border-radius: 20px;
 }
@@ -1122,7 +1139,7 @@ body {
     padding: 10px;
     position: absolute;
     top: 120px; /* Adjust based on button height */
-    right: 0;
+    right: 120px;
   }
   
   .participants-list {
