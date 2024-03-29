@@ -243,17 +243,19 @@ const ClassChat = ({ onLeaveClass }) => {
               onChange={(e) => setNewMessage(e.target.value)}
               placeholder="Type your message..."
             />
-            
-          </div>
-          <div className="file-upload-section">
-            <label htmlFor="file-upload" className="upload-chat-button"> <FontAwesomeIcon icon={faFileUpload} /> &nbsp; Upload</label>
+            <div className="file-upload-section">
+            <label htmlFor="file-upload" className="upload-chat-button"> <FontAwesomeIcon icon={faFileUpload} /></label>
             <input
               id="file-upload"
               type="file"
               style={{ display: 'none' }}
               onChange={handleFileInputChange}
             />
-            <button className="class-chat-button" onClick={handleSendMessage}> <FontAwesomeIcon icon={faPaperPlane} /> &nbsp; Send</button>
+          </div>
+            <button className="class-chat-button" onClick={handleSendMessage}> <FontAwesomeIcon icon={faPaperPlane} /> </button>
+            
+          
+            
           </div>
         </div>
       </div>

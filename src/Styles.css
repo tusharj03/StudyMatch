@@ -774,8 +774,8 @@ body {
 .file-upload-section {
   display: flex; /* Change to flex container */
   align-items: center; /* Vertically center items */
-  margin-top: 10px;
   font-size: 14px;
+  margin-right: 8px;
 }
 
 /* Button styles */
@@ -786,8 +786,7 @@ body {
   background-color: #007bff;
   color: #fff;
   cursor: pointer;
-  font-size: 14px;
-  margin-right: 10px; /* Add margin to create space between buttons */
+  font-size: 14px; /* Add margin to create space between buttons */
 }
 
 .class-chat-button:hover {
@@ -1005,7 +1004,6 @@ body {
   background-color: #007bff;
   color: #fff;
   cursor: pointer;
-  margin-right: 10px;
   padding: 10px 20px;
   border-radius: 20px; /* Add margin to create space between buttons */
 }
