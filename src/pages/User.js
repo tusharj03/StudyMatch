@@ -87,7 +87,7 @@ const User = ({ isAuth }) => {
       {snapchat !== "" &&
         <div className="userProfileSocial">
           <FontAwesomeIcon id="snapchatIcon" className="contactIcon" icon={faSnapchat}/>
-          <span id="userProfileSnapchat" className="userProfileContactText">{snapchat}</span>
+          <span id="userProfileSnapchat" className="userProfileContactText"> {snapchat}</span>
         </div>
       }
 

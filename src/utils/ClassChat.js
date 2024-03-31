@@ -192,6 +192,12 @@ const ClassChat = ({ onLeaveClass }) => {
     setNewMessage(e.target.files[0].name); // Display file name in the input
   };
 
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSendMessage();
+    }
+  };
+
   return (
     <div className="background-container">
     <div className={`class-chat-container ${showParticipants ? 'show-participants' : ''}`}>
@@ -199,11 +205,23 @@ const ClassChat = ({ onLeaveClass }) => {
       <h2 style={{ fontFamily: '' /* other styles */ }}>Class Chat: {className}</h2>
       <hr style={{ border: '1px solid #ccc', margin: '20px 0' }} />
       <button className="leave-class-button" onClick={handleLeaveClassClick}>
-            <FontAwesomeIcon icon={faSignOutAlt} /> Leave
-          </button>
-          <button className="participants-toggle-button" onClick={toggleParticipantsList}>
-            <FontAwesomeIcon icon={faUsers} /> &nbsp; {showParticipants ? "  Hide Participants" : "  View Participants"}
-          </button>
+  {window.innerWidth > 600 ? (
+    <>
+      <FontAwesomeIcon icon={faSignOutAlt} /> Leave
+    </>
+  ) : (
+    <FontAwesomeIcon icon={faSignOutAlt} />
+  )}
+</button>
+<button className="participants-toggle-button" onClick={toggleParticipantsList}>
+  {window.innerWidth > 600 ? (
+    <>
+      <FontAwesomeIcon icon={faUsers} /> &nbsp; {showParticipants ? "  Hide Participants" : "  View Participants"}
+    </>
+  ) : (
+    <FontAwesomeIcon icon={faUsers} />
+  )}
+</button>
         
         <div className="messages-section">
           <div className="class-chat-messages">
@@ -229,7 +247,7 @@ const ClassChat = ({ onLeaveClass }) => {
         </p>
       )}
               </div>
-              <div dangerouslySetInnerHTML={{ __html: message.message }} style={{ marginLeft: '33px' }}></div>
+              <div dangerouslySetInnerHTML={{ __html: message.message }} style={{ display: 'block' }}></div>
             </div>
             
             ))}
@@ -237,10 +255,11 @@ const ClassChat = ({ onLeaveClass }) => {
           </div>
           <div className="send-message-section">
             <input
-              className="class-chat-input"
+             className="class-chat-input"
               type="text"
               value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
+              onKeyPress={handleKeyPress} // Call handleKeyPress on key press
               placeholder="Type your message..."
             />
             <div className="file-upload-section">
