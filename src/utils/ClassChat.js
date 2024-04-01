@@ -202,7 +202,13 @@ const ClassChat = ({ onLeaveClass }) => {
     <div className="background-container">
     <div className={`class-chat-container ${showParticipants ? 'show-participants' : ''}`}>
       <div className="class-chat-main">
-      <h2 style={{ fontFamily: '' /* other styles */ }}>Class Chat: {className}</h2>
+      <h2 style={{ fontFamily: '' /* other styles */ }}>
+  {window.innerWidth > 760 ? (
+    <>Class Chat: {className}</>
+  ) : (
+    className
+  )}
+</h2>
       <hr style={{ border: '1px solid #ccc', margin: '20px 0' }} />
       <button className="leave-class-button" onClick={handleLeaveClassClick}>
   {window.innerWidth > 760 ? (
