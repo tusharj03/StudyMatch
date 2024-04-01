@@ -245,11 +245,13 @@ const ClassChat = ({ onLeaveClass }) => {
                   <div dangerouslySetInnerHTML= {{ __html: message.message }}></div>
                 </div>
                 {/* Display timestamp */}
-                <div className="timestamp-container">
-      <p className="message-timestamp">
-        {message.timestamp && message.timestamp.toDate().toLocaleString([], { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' })}
-      </p>
-    </div>
+                {window.innerWidth > 767 && (
+                    <div className="timestamp-container">
+                      <p className="message-timestamp">
+                        {message.timestamp && message.timestamp.toDate().toLocaleString([], { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' })}
+                      </p>
+                    </div>
+                )}
               </div>
             </div>
                                

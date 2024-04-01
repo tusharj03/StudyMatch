@@ -1219,10 +1219,10 @@ body {
   /* Message styles */
   .class-chat-message {
     padding: 10px;
-    border-radius: 5px;
+    border-radius: 20px;
     background-color: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-bottom: 10px;
+    margin-bottom: 15px;
   }
   
   /* Send message section styles */
