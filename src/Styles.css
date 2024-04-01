@@ -1164,8 +1164,8 @@ body {
     border-left: 1px solid #ccc;
     padding: 10px;
     position: absolute;
-    top: 120px; /* Adjust based on button height */
-    right: 120px;
+    top: 140px; /* Adjust based on button height */
+    right: -35px;
   }
   
   .participants-list {
