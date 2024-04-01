@@ -205,7 +205,7 @@ const ClassChat = ({ onLeaveClass }) => {
       <h2 style={{ fontFamily: '' /* other styles */ }}>Class Chat: {className}</h2>
       <hr style={{ border: '1px solid #ccc', margin: '20px 0' }} />
       <button className="leave-class-button" onClick={handleLeaveClassClick}>
-  {window.innerWidth > 600 ? (
+  {window.innerWidth > 760 ? (
     <>
       <FontAwesomeIcon icon={faSignOutAlt} /> Leave
     </>
@@ -214,7 +214,7 @@ const ClassChat = ({ onLeaveClass }) => {
   )}
 </button>
 <button className="participants-toggle-button" onClick={toggleParticipantsList}>
-  {window.innerWidth > 600 ? (
+  {window.innerWidth > 760 ? (
     <>
       <FontAwesomeIcon icon={faUsers} /> &nbsp; {showParticipants ? "  Hide Participants" : "  View Participants"}
     </>
@@ -228,28 +228,31 @@ const ClassChat = ({ onLeaveClass }) => {
             {messages.map((message, index) => (
               <div key={index} className="class-chat-message">
               <div className="message-info">
-              <div className="profile-pic-container">
-                    {message.profilePicURL ? (
-                      <img src={message.profilePicURL} alt="Profile" className="profile-pic-small" />
-                    ) : (
-                      <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="Default Profile" className="profile-pic-small" />
-                    )}
-                  </div>
-                <strong>
-                  {/* Wrap username with Link */}
-                  <Link to={`/user/${message.userId}`} style={{ textDecoration: 'none' }}>
-                    <p id="userDisplayNameChat">{message.displayName}:</p>
-                  </Link>
-                </strong>
-                {message.timestamp && (
-        <p className="message-timestamp">
-          {message.timestamp.toDate().toLocaleString([], { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' })}
-        </p>
-      )}
+                <div className="profile-pic-container">
+                  {message.profilePicURL ? (
+                    <img src={message.profilePicURL} alt="Profile" className="profile-pic-small" />
+                  ) : (
+                    <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="Default Profile" className="profile-pic-small" />
+                  )}
+                </div>
+                <div className="user-message-container">
+                  <strong>
+                    {/* Wrap username with Link */}
+                    <Link to={`/user/${message.userId}`} style={{ textDecoration: 'none' }}>
+                      <p id="userDisplayNameChat">{message.displayName}:</p>
+                    </Link>
+                  </strong>
+                  <div dangerouslySetInnerHTML= {{ __html: message.message }}></div>
+                </div>
+                {/* Display timestamp */}
+                <div className="timestamp-container">
+      <p className="message-timestamp">
+        {message.timestamp && message.timestamp.toDate().toLocaleString([], { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' })}
+      </p>
+    </div>
               </div>
-              <div dangerouslySetInnerHTML={{ __html: message.message }} style={{ display: 'block' }}></div>
             </div>
-            
+                               
             ))}
             <div ref={messagesEndRef} />
           </div>
