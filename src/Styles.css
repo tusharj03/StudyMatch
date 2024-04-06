@@ -359,8 +359,7 @@ body {
 
 #userDisplayNameChat {
   color: black;
-  font-size: 1rem;
-  height: 2.rem; /* Center the text */
+  font-size: 1rem; /* Center the text */
   margin: 0; /* Center horizontally */
   display: block; 
   margin-bottom: 2px;
