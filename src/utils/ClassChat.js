@@ -174,7 +174,7 @@ const ClassChat = ({ onLeaveClass }) => {
   
         // Clear selected file after upload
         setSelectedFile(null);
-  
+        // hey
       } catch (error) {
         console.error("Error uploading file:", error);
       }
