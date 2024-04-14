@@ -1,10 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
-
 .theme-light {
-  --color1: #800000;
+  --color1: #003366;
   --color2: #FCEEEE;
-  --color3: #767676;
-  --color4: #4e0101; 
+  --color3: #FF5F0F;
+  --color4: #29298A; 
   --color5: white; 
   --colorSidebar: var(--color1);
   --colorSidebarLink: var(--color2);
@@ -36,30 +35,21 @@
   --colorToggleIconHover: var(--color2);
   --colorToggleBackgroundHover: #E77474;
 }
-
-
-
-
-
-
 html *
 {
   font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
-
 body {
   background-color: var(--color5);
   border: 0px;
   margin: 0;
 }
-
 .center {
   margin-left: 15%;
   margin-right:15%;
   width: 70%;
   padding: 10px;
 }
-
 /* MAIN TITLES */
 .title {
   color: var(--color1);
@@ -71,7 +61,6 @@ body {
   border-radius: 5px;
   width: 15rem;
 }
-
 /* BUTTONS */
 .button1{
   /* color, textbox size */
@@ -86,7 +75,6 @@ body {
   font-size: 1rem;
   color: var(--color2);
 }
-
 .button1:hover{
   background-color: var(--color4);
   color: var(--color2);
@@ -95,7 +83,6 @@ body {
   background-color: var(--color1);
   color: var(--color2);
 }
-
 /* SIDEBAR */
 .sidebar{
   background-color: var(--colorSidebar);
@@ -124,11 +111,9 @@ body {
   background-color: var(--color2);
   color: var(--color1);
 }
-
 #logoutButton {
   background-color: var(--colorSidebar);
   border: 0;
-
   font-size: 1rem;
   color: var(--colorLogoutText);
   position: absolute;
@@ -138,17 +123,14 @@ body {
 #logoutButton:hover {
   text-decoration: underline;
 }
-
 /* PAGE */
 .page{
   position: absolute;
   margin-left: 12rem; /* Adjust this value to match the width of your sidebar */
 }
-
 .classChat {
   margin-left: 12rem;
 }
-
 .toggleThemeButton {
   position: absolute;
   left: 1.5rem;
@@ -163,15 +145,11 @@ body {
   height: 2.5rem;
   width: 2.5rem;
 }
-
 .toggleThemeButton:hover {
   background-color: var(--colorToggleBackgroundHover);
   color: var(--colorToggleIconHover);
-
 }
-
 /* LOGIN PAGE */
-
 /* Purple bar at the top */
 #loginTopBar {
   background-color: var(--color1);
@@ -179,7 +157,6 @@ body {
   width: 100%;
   border: 0;
 }
-
 #loginTitle {
   /* Color, position, textbox size */
   color: var(--color2);
@@ -188,13 +165,11 @@ body {
   left: 1rem;
   top: -1rem;
   display: flex;
-
   /* Font and font size */
   font-weight: bold;
   font-size: 30px;
   line-height: 45px;
 }
-
 #tagline {
   
   /*overflow: hidden;*/
@@ -211,8 +186,6 @@ body {
   animation: 
     typing 3s steps(20,end) forwards;
   ;
-
-
   color: var(--color1);
   text-align: center;
   transform: translate(0%, 120%);
@@ -222,20 +195,14 @@ body {
   font-size: 27px;
   font-size: 2.5vw;
 }
-
 @keyframes typing {
   from { width: 0 }
   to { width: 70% }
 }
-
-
-
-
 #loginButton {
   left: 50%;
   transform: translate(-50%, 400%);
 }
-
 .noticeBox {
   position: absolute;
   width: 60%;
@@ -247,16 +214,13 @@ body {
   justify-content: center;
   align-items: center;
   
-
   border: 0;
   background: #D0D4FC;
   border-top-width: 50px;
   border-top-color: var(--color1);
   border-top-style: solid;
   box-shadow: 0rem 1rem 1rem 0rem var(--colorShadow);
-
 }
-
 .noticeBox h2 {
   position: absolute;
   text-align: center;
@@ -275,7 +239,6 @@ body {
   margin-left: 10%;
   margin-right: 10%;
 }
-
 .loginPage {
   position: absolute;
   width: 100%;
@@ -286,10 +249,7 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
 }
-
 /* MATCHES PAGE */
-
-
 .matchesUserBox{
   position: relative;
   right: 1rem;
@@ -303,11 +263,9 @@ body {
   color: var(--color1);
   background-color: var(--colorBoxes);
 }
-
 .userSection {
   margin: -0.5rem 0rem;
 }
-
 .profile-pic {
   width: 100px; /* Adjust the width as needed */
   height: 100px;/* Adjust the height as needed */
@@ -318,7 +276,6 @@ body {
   margin-top: 1rem;
   object-fit: cover;
 }
-
 .profilePic {
   width: 100px; /* Adjust the width as needed */
   height: 100px;
@@ -328,7 +285,6 @@ body {
   margin-left: 3rem;
   object-fit: cover;
 }
-
 .userContent {
   resize: none;
   border: none;
@@ -339,15 +295,12 @@ body {
   color: var(--color4);
   overflow: hidden;
 }
-
 .userContentHeader {
   color: var(--color1);
 }
-
 #userDisplayName {
   color: var(--color3);
-  font-size: 1.2rem;
-  height: 2.rem;
+  font-size: 1rem;
   text-align: center; /* Center the text */
   margin: auto;
   margin-top: 1rem; /* Center horizontally */
@@ -359,16 +312,16 @@ body {
 
 #userDisplayNameChat {
   color: black;
+  font-size: 1rem;
+  height: 2.rem; /* Center the text */
   font-size: 1rem; /* Center the text */
   margin: 0; /* Center horizontally */
   display: block; 
   margin-bottom: 2px;
 }
-
 #userDisplayNameChat:hover {
   text-decoration: underline;
 }
-
 #userContentMajor {
   color: var(--color1);
   text-align: center; /* Center the text */
@@ -376,25 +329,20 @@ body {
   display: block; 
   font-size: 16px;
 }
-
 #userContentClasses {
   height: 2.25rem;
 }
-
 #userContentBio {
   height: 8.5rem;
 }
-
 /*  PROFILE PAGE */
 .note {
   font-size: 0.75em;
   color: var(--color1);
 }
-
 .inputHeader {
   color: var(--color1);
 }
-
 #contact{
   margin-left:0%;
   margin-top:0px;
@@ -402,7 +350,6 @@ body {
 .inputHeaderBig {
   color: var(--color3);
 }
-
 .inputSmall {
   padding: 10px;
   margin: 10px 0;
@@ -416,11 +363,9 @@ body {
   outline: none;
   border: none;
 }
-
 ::placeholder {
   color: var(--colorPlaceholder);
 }
-
 .inputLarge {
   padding: 10px;
   margin: 10px 0;
@@ -435,18 +380,15 @@ body {
 .inputLarge:focus{
   outline: none;
 }
-
 .preDropdownText {
   display: inline-block;
   color: var(--color4);
   /* margin: 0rem 0rem 1rem; */
   margin: 0rem;
 }
-
 #majorInput, #majorDropdown {
   margin: 0.75rem 0rem 1rem;
 }
-
 .editButton {
   background: none;
   outline: none;
@@ -454,13 +396,11 @@ body {
   color: var(--color3);
   margin: 0rem 0.2rem;
 }
-
 .message {
   display: none;
   padding: 1rem 0rem;
   color: var(--color1)
 }
-
 .profilePicButton {
   display: inline-block;
   background-color: var(--color1);
@@ -474,17 +414,14 @@ body {
   font-size: 1rem;
   color: var(--color2);
 }
-
 .profilePicButton:hover {
   background-color: var(--color4);
   color: var(--color2);
 }
-
 .profilePicButton:active {
   background-color: var(--color1);
   color: var(--color2);
 }
-
 .profilePicButton2 {
   display: inline-block;
   background-color: var(--color1);
@@ -499,25 +436,20 @@ body {
   font-size: 1rem;
   color: var(--color2);
 }
-
 .profilePicButton2:hover {
   background-color: var(--color4);
   color: var(--color2);
 }
-
 .profilePicButton2:active {
   background-color: var(--color1);
   color: var(--color2);
 }
-
 /* USER PROFILES */
-
 #userProfileMajor {
   margin: 0rem 0rem -1rem;
   font-size: 1.2rem;
   color: var(--color1);
 }
-
 .userProfileContent {
   resize: none;
   border: none;
@@ -525,7 +457,6 @@ body {
   font-size: 1rem;
   color: var(--color4);
 }
-
 .userProfileLink {
   text-decoration: none;
   position: relative;
@@ -536,61 +467,49 @@ body {
 .userProfileLink:hover {
   text-decoration: underline;
 }
-
 .userProfileContactText {
   position: relative;
-  color: var(--color3);
+  color: var(--color4);
   margin: 0rem 0.1rem;
   top: -0.3rem;
 }
-
 .userProfileHeader {
   color: var(--color1);
 }
-
 .contactIcon {
   font-size: 2rem;
   color: var(--color1);
 }
-
 #emailIcon {
   font-size: 1.82rem;
 }
-
 #discordIcon {
   font-size: 1.7rem;
   position: relative;
   left: -0.18rem;
 }
-
 .message-info {
   display: flex;
   grid-template-columns: auto 1fr; /* Profile pic takes up auto width, rest is for name and message */
   grid-column-gap: 10px; /* Adjust the gap between elements */
   align-items: flex-start; /* Align items vertically */
 }
-
 .message-content {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
 }
-
 .user-message-container {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
 }
-
 .user-message-content {
   display: flex;
 }
-
 .user-message-content p {
   margin-right: 10px; /* Adjust as needed */
 }
-
-
 .profile-pic-small {
   width: 35px;
   height: 35px;
@@ -599,17 +518,14 @@ body {
   margin-right: 7px;
   vertical-align: middle;
 }
-
 .profile-pic-name-container {
   display: flex;
   align-items: center;
 }
-
 .profile-pic-container {
   grid-row: span 2; /* Span two rows to make space for both name and message */
   
 }
-
 .footer {
   padding: 0;
   width: 100%;
@@ -618,11 +534,7 @@ body {
   bottom: 0;
   margin-top: 10px;
 }
-
-
-
 @media screen and (min-width: 1100px){
-
 .button1{
   /* color, textbox size */
   background-color: var(--color1);
@@ -636,7 +548,6 @@ body {
   font-size: 1rem;
   color: var(--color2);
 }
-
 .button1:hover{
   background-color: var(--color4);
   color: var(--color2);
@@ -645,52 +556,37 @@ body {
   background-color: var(--color1);
   color: var(--color2);
 }
-
   .profile-select-control {
     max-width: 375px;
     background-color: #FCEEEE;
     border-color: inherit;
   }
-
 #contact{
   margin-left:125%;
   margin-top:-418px;
 }
-
 #matchUser{
   margin-left:250%;
   margin-top:-360px;
 }
-
 }
-
-
 .inputSection {
   margin-bottom: 20px; /* Adjust the value as needed */
 }
-
 /* ClassChatPage.css */
-
 /* Styles for the container of the class chat */
-
 /* Add these styles to your existing Styles.css or create a new CSS file */
-
 /* ClassChat styles */
-
 /* Container styles */
 .class-chat-container {
   margin-left: 13rem;
   margin-top: 0rem;
   margin-right: 3rem;
   padding: 20px;
-
   border-radius: 5px;
-
   height: 80vh;
   border-radius: 10px;
-
 }
-
 .chat-preview {
   display: flex;
   align-items: center;
@@ -698,29 +594,22 @@ body {
   border-bottom: 1px solid #ccc;
   cursor: pointer;
 }
-
 .chat-preview-info {
   flex: 1;
 }
-
 .chat-preview-title {
   margin-bottom: 4px;
   font-weight: bold;
   color: var(--color1)
-
 }
-
 .chat-preview-message {
   margin: 0;
   color: #666;
 }
-
 .class-chat-main {
   flex-grow: 1;
   overflow-y: auto;
 }
-
-
 /* Participants section styles */
 .participants-section {
   width: 200px; /* Set the width of the participants section */
@@ -732,20 +621,17 @@ body {
   right: 50px;
   width: 200px;
 }
-
 .participants-list {
   list-style-type: none;
   padding: 0;
   margin: 0;
 }
-
 .show-participants .class-chat-main {
   flex-grow: 0;
   max-width: calc(100% - 200px); /* Adjust the width when participants are shown */
 }
-
 .participants-toggle-button {
-  background-color: #767676;
+  background-color: #007bff;
   color: #fff;
   border: none;
   cursor: pointer;
@@ -755,38 +641,30 @@ body {
   padding: 10px 20px;
   border-radius: 20px;
 }
-
 .participants-toggle-button:hover {
   background-color: #0056b3;
 }
-
-
 .participants-list li {
   margin-bottom: 5px;
 }
-
 /* Messages section styles */
 .messages-section {
   height: 70vh; /* Set a fixed height for the messages section */
   overflow-y: scroll; /* Add vertical scroll */
 }
-
 .class-chat-messages {
   margin-bottom: 10px;
 }
-
 /* Message styles */
 .class-chat-message {
   padding: 10px;
   margin-bottom: 10px;
 }
-
 /* Send message section styles */
 .send-message-section {
   display: flex;
   align-items: center;
 }
-
 .class-chat-input {
   flex: 1;
   padding: 10px 10px;
@@ -795,7 +673,6 @@ body {
   margin-right: 10px;
   margin-top: 5px;
 }
-
 /* File upload section styles */
 .file-upload-section {
   display: flex; /* Change to flex container */
@@ -803,7 +680,6 @@ body {
   font-size: 14px;
   margin-right: 8px;
 }
-
 /* Button styles */
 .class-chat-button {
   padding: 5px 20px; /* Increased padding for better spacing */
@@ -814,19 +690,14 @@ body {
   cursor: pointer;
   font-size: 14px; /* Add margin to create space between buttons */
 }
-
 .class-chat-button:hover {
   background-color: #0056b3;
 }
-
 /* File input styles */
 .file-input {
   display: none;
 }
-
-
 /*CHAT.JS*/
-
 .class-chat-container {
   display: flex;
   flex-direction: column;
@@ -839,24 +710,21 @@ body {
     height: 80vh;
     border-radius: 10px;
 }
-
 .background-container {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: linear-gradient(#f25c5c, #ebf0fa);
+  background-image: linear-gradient(#accbff, #ebf0fa);
   margin-top: 0rem;
   z-index: -1; /* Ensure it stays behind other content */
 }
-
 /* Class chat main section */
 .class-chat-main {
   flex: 1;
   flex-direction: column;
 }
-
 .class-chat-header {
   position: fixed;
   top: 0;
@@ -867,7 +735,6 @@ body {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Add shadow for better separation */
   z-index: 1000; /* Ensure it's above other content */
 }
-
 /* Class chat header */
 .class-chat-main h2 {
   font-size: 24px;
@@ -875,16 +742,13 @@ body {
   margin: 20px;
   color: #333;
 }
-
 /* Leave class button */
-
 /* Messages section */
 .messages-section {
   flex: 1;
   overflow-y: auto;
   padding: 0 20px;
 }
-
 /* Message container */
 .class-chat-message {
   display: flex;
@@ -892,7 +756,6 @@ body {
   align-items: flex-start;
   margin-bottom: 10px;
 }
-
 /* Sender name */
 .message-sender {
   font-size: 14px;
@@ -900,10 +763,7 @@ body {
   color: #888;
   margin-bottom: 2px;
 }
-
 /* Message content */
-
-
 /* Timestamp */
 .message-timestamp {
   
@@ -911,7 +771,6 @@ body {
   color: #888;
   margin-top: 2px;
 }
-
 /* Send message section */
 .send-message-section {
   display: flex;
@@ -919,7 +778,6 @@ body {
   margin: 0px;
   margin-bottom: 20px;
 }
-
 .class-chat-input {
   flex: 1;
   padding: 10px;
@@ -930,21 +788,18 @@ body {
   margin-right: 10px;
   outline: none;
 }
-
 /* Send button */
 .class-chat-button {
   padding: 10px 20px;
   border: none;
-  background-color: #767676;
+  background-color: #007bff;
   color: white;
   cursor: pointer;
   border-radius: 20px;
 }
-
 .class-chat-button:hover {
   background-color: #0056b3;
 }
-
 /* Participants section */
 .participants-section {
   position: absolute;
@@ -956,41 +811,32 @@ body {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   padding: 20px;
 }
-
 .participants-list {
   list-style: none;
   padding: 0;
   margin: 0;
 }
-
 .participants-list li {
   margin-bottom: 10px;
 }
-
-
 .participants-section h3 {
   font-size: 20px;
   font-weight: bold;
   margin-bottom: 10px;
   color: #333;
 }
-
 /* Participants list */
-
 /* User display name in participants list */
 .user-display-name {
   font-weight: bold;
 }
-
 /* Show participants animation */
 .show-participants {
   flex-direction: row;
 }
-
 .button-container {
   text-align: center;
 }
-
 .button-container button {
   margin-top: 20px;
   padding: 10px 20px;
@@ -1002,60 +848,50 @@ body {
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
-
 .button-container button:hover {
   background-color: var(--color4);
   color: var(--color2);
 }
-
 .chat-image {
   max-width: 100%;
   max-height: 350px; /* Adjust height as needed */
 }
-
 .leave-class-button {
   position: absolute;
   top: 75px;
   right: 80px;
-  background-color: #767676;
+  background-color: #007bff;
   color: #fff;
   border: none;
   cursor: pointer;
   padding: 10px 20px;
   border-radius: 20px;
 }
-
 .leave-class-button:hover {
   background-color: #0056b3;
 }
-
 .send-message-section,
 .file-upload-section {
   flex: none; /* Do not grow; maintain natural height */
 }
-
-
 .upload-chat-button {
   padding: 5px 20px; /* Increased padding for better spacing */
   border: none;
   border-radius: 5px;
-  background-color: #767676;
+  background-color: #007bff;
   color: #fff;
   cursor: pointer;
   padding: 10px 20px;
   border-radius: 20px; /* Add margin to create space between buttons */
 }
-
 .upload-chat-button:hover {
   background-color: #0056b3;
 }
-
 .search-bar {
   position: fixed;
   top: 20px;
   right: 40px;
 }
-
 .search-bar input {
   padding: 8px;
   border: none;
@@ -1065,20 +901,16 @@ body {
   width: 200px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-
 .search-bar input:focus {
   outline: none;
   color: var(--color3);
 }
-
 .search-bar input::placeholder {
   color: #999; /* Placeholder text color */
 }
-
 .toggleThemeButton {
   display: none;
 }
-
 /* Add this CSS for the chat button */
 .chat-button {
   position: fixed;
@@ -1094,11 +926,8 @@ body {
   cursor: pointer;
   z-index: 1000; /* Ensure it's above other elements */
 }
-
-
 @media screen and (max-width: 767px) {
   /* Styles for phones (max-width: 767px) */
-
   /* Move sidebar to the bottom */
   .sidebar {
     position: fixed;
@@ -1112,7 +941,6 @@ body {
     background-color: var(--colorSidebar);
     z-index: 9999; /* Ensure it appears above other content */
   }
-
   /* Adjust sidebar links */
   .sidebar a {
     position: relative;
@@ -1123,7 +951,6 @@ body {
     font-size: 14px; /* Adjust font size */
     text-align: center; /* Center text */
   }
-
   /* Adjust logout button position */
   #logoutButton {
     position: relative;
@@ -1133,23 +960,19 @@ body {
     text-align: center;
     bottom: 0; /* Adjust as needed */
   }
-
   /* Hide other elements */
   .page {
     margin-top: 60px; /* Adjust to avoid overlapping with bottom bar */
     margin-left: 20px;
   }
-
   .toggleThemeButton {
     display: none;
   }
   
-
   
   .classChat {
     margin-left: 10px;
   }
-
   .class-chat-container {
     margin-left: 20px;
     margin-top: 75px;
@@ -1193,7 +1016,7 @@ body {
     padding: 5px 20px; /* Increased padding for better spacing */
   border: none;
   border-radius: 5px;
-  background-color: ##767676;
+  background-color: #007bff;
   color: #fff;
   cursor: pointer;
   padding: 10px 20px;
@@ -1217,7 +1040,6 @@ body {
     height: 70vh; /* Set a fixed height for the messages section */
     overflow-y: scroll; /* Add vertical scroll */
   }
-
   .class-chat-main h2 {
     margin-top: 40px;
   }
@@ -1264,7 +1086,7 @@ body {
   .class-chat-button { /* Increased padding for better spacing */
   border: none;
   border-radius: 5px;
-  background-color: ##767676;
+  background-color: #007bff;
   color: #fff;
   cursor: pointer;
   padding: 10px 20px;
@@ -1275,7 +1097,7 @@ body {
   .upload-chat-button {
     border: none;
     border-radius: 5px;
-    background-color: ##767676;
+    background-color: #007bff;
     color: #fff;
     cursor: pointer;
     padding: 10px 20px;
@@ -1290,12 +1112,11 @@ body {
   .file-input {
     display: none;
   }
-
   .leave-class-button {
     padding: 5px 20px; /* Increased padding for better spacing */
   border: none;
   border-radius: 5px;
-  background-color: #767676;
+  background-color: #007bff;
   color: #fff;
   cursor: pointer;
   padding: 10px 20px;
@@ -1311,7 +1132,6 @@ body {
     /* Adjust margin-top to create space under the sidebar */
     margin-top: 70px; /* Adjust this value as needed */
   }
-
   .search-bar {
     /* Remove position: fixed; */
     top: auto;
