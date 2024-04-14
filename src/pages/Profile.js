@@ -257,7 +257,7 @@ const Profile = ({ isAuth }) => {
       <div className="inputSection">
         <b className="inputHeader">Email</b>
         <br/>
-        <input id="emailInput" className="inputSmall" placeholder="netid@illinois.edu"></input>
+        <input id="emailInput" className="inputSmall" placeholder="CNetID@uchicago.edu"></input>
       </div>
       <div className="inputSection">
         <b className="inputHeader">Instagram</b>

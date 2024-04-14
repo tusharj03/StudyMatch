@@ -1,10 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
 .theme-light {
-  --color1: #003366;
+  --color1: #800000;
   --color2: #FCEEEE;
-  --color3: #FF5F0F;
-  --color4: #29298A; 
+  --color3: #767676;
+  --color4: #4e0101; 
   --color5: white; 
   --colorSidebar: var(--color1);
   --colorSidebarLink: var(--color2);
@@ -539,7 +539,7 @@ body {
 
 .userProfileContactText {
   position: relative;
-  color: var(--color4);
+  color: var(--color3);
   margin: 0rem 0.1rem;
   top: -0.3rem;
 }
@@ -745,7 +745,7 @@ body {
 }
 
 .participants-toggle-button {
-  background-color: #007bff;
+  background-color: #767676;
   color: #fff;
   border: none;
   cursor: pointer;
@@ -846,7 +846,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: linear-gradient(#accbff, #ebf0fa);
+  background-image: linear-gradient(#f25c5c, #ebf0fa);
   margin-top: 0rem;
   z-index: -1; /* Ensure it stays behind other content */
 }
@@ -935,7 +935,7 @@ body {
 .class-chat-button {
   padding: 10px 20px;
   border: none;
-  background-color: #007bff;
+  background-color: #767676;
   color: white;
   cursor: pointer;
   border-radius: 20px;
@@ -1017,7 +1017,7 @@ body {
   position: absolute;
   top: 75px;
   right: 80px;
-  background-color: #007bff;
+  background-color: #767676;
   color: #fff;
   border: none;
   cursor: pointer;
@@ -1039,7 +1039,7 @@ body {
   padding: 5px 20px; /* Increased padding for better spacing */
   border: none;
   border-radius: 5px;
-  background-color: #007bff;
+  background-color: #767676;
   color: #fff;
   cursor: pointer;
   padding: 10px 20px;
@@ -1193,7 +1193,7 @@ body {
     padding: 5px 20px; /* Increased padding for better spacing */
   border: none;
   border-radius: 5px;
-  background-color: #007bff;
+  background-color: ##767676;
   color: #fff;
   cursor: pointer;
   padding: 10px 20px;
@@ -1264,7 +1264,7 @@ body {
   .class-chat-button { /* Increased padding for better spacing */
   border: none;
   border-radius: 5px;
-  background-color: #007bff;
+  background-color: ##767676;
   color: #fff;
   cursor: pointer;
   padding: 10px 20px;
@@ -1275,7 +1275,7 @@ body {
   .upload-chat-button {
     border: none;
     border-radius: 5px;
-    background-color: #007bff;
+    background-color: ##767676;
     color: #fff;
     cursor: pointer;
     padding: 10px 20px;
@@ -1295,7 +1295,7 @@ body {
     padding: 5px 20px; /* Increased padding for better spacing */
   border: none;
   border-radius: 5px;
-  background-color: #007bff;
+  background-color: #767676;
   color: #fff;
   cursor: pointer;
   padding: 10px 20px;
